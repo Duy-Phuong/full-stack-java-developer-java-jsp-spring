@@ -62,3 +62,16 @@ http://www.programmersought.com/article/2072376281/
 From the diagram above, instead of "Tools", select "Editor" > "Code Style" > [Pick a file type] ...then you will see your settings.
 
 ![](../../root/img/2019-12-08-15-44-49.png)
+
+### Inteliji
+
+ctr+alt+shift+L -> reformat whole file
+CTRL SHIFT A => Action: To space
+If you want to apply the changes just to the current file
+
+- Option 1: You can choose in the navigation bar: Edit -> Convert Indent -> To Spaces. (see image below)
+
+To view the keymap configuration, open the Settings/Preferences dialog Ctrl+Alt+S and select Keymap.
+![](../../root/img/2019-12-08-22-06-35.png)
+
+https://www.jetbrains.com/help/idea/configuring-keyboard-and-mouse-shortcuts.html
