@@ -89,3 +89,28 @@ jdbc:mysql://localhost/liferay_test?characterEncoding=UTF-8&dontTrackOpenResourc
 com.mysql.jdbc.Driver
 root - 1234
 ![](../../root/img/2019-12-09-21-14-38.png)
+
+https://liferay.dev/forums/-/message_boards/message/2291883
+portal-ext.properties
+
+```.properties
+jdbc.default.driverClassName=com.mysql.jdbc.Driver
+jdbc.default.url=jdbc:mysql://localhost/liferay52?useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false
+jdbc.default.username=root
+jdbc.default.password=password (not the real one)
+```
+
+Download mysql connector java
+https://dev.mysql.com/downloads/connector/j/5.1.html
+
+![](../../root/img/2019-12-09-22-40-59.png)
+
+Create service
+![](../../root/img/2019-12-09-22-56-18.png)
+
+![](../../root/img/2019-12-09-22-58-46.png)
+
+![](../../root/img/2019-12-09-22-58-57.png)
+Gom api and sevice
+file service.xml add entities
+![](../../root/img/2019-12-09-23-03-53.png)
