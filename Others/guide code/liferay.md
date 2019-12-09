@@ -31,6 +31,9 @@ http://roufid.com/liferay/
 
 ## download
 
+http://serwis.kampus.uj.edu.pl/cds/books/Liferay.in.Action.pdf
+http://trip.sk/books/practical-liferay-java-based-portal-applications-development.9781430218470.46790.pdf
+https://riptutorial.com/Download/liferay.pdf
 Must install Java
 
 https://www.liferay.com/downloads-community
@@ -114,3 +117,12 @@ Create service
 Gom api and sevice
 file service.xml add entities
 ![](../../root/img/2019-12-09-23-03-53.png)
+
+Chi check o local sevice
+![](../../root/img/2019-12-09-23-06-56.png)
+
+input table name => add columns
+build maven: https://books.sonatype.com/m2eclipse-book/reference/running-sect-running-maven-builds.html
+
+clean install
+![](../../root/img/2019-12-09-23-10-57.png)

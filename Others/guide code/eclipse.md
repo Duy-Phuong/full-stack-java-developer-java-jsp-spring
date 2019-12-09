@@ -75,3 +75,6 @@ To view the keymap configuration, open the Settings/Preferences dialog Ctrl+Alt+
 ![](../../root/img/2019-12-08-22-06-35.png)
 
 https://www.jetbrains.com/help/idea/configuring-keyboard-and-mouse-shortcuts.html
+
+MAVEN
+https://books.sonatype.com/m2eclipse-book/reference/index.html
