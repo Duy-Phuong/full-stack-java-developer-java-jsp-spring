@@ -31,6 +31,8 @@ http://roufid.com/liferay/
 
 ## download
 
+https://portal.liferay.dev/download
+
 http://serwis.kampus.uj.edu.pl/cds/books/Liferay.in.Action.pdf
 http://trip.sk/books/practical-liferay-java-based-portal-applications-development.9781430218470.46790.pdf
 https://riptutorial.com/Download/liferay.pdf
@@ -86,6 +88,8 @@ vao web/ add/ widget/ see Project Sample
 
 ![](../../root/img/2019-12-09-21-00-29.png)
 
+## Connect db
+
 Create schema: liferay_test
 
 jdbc:mysql://localhost/liferay_test?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&serverTimezone=GMT&useFastDateParsing=false&useUnicode=true
@@ -122,7 +126,103 @@ Chi check o local sevice
 ![](../../root/img/2019-12-09-23-06-56.png)
 
 input table name => add columns
+
+input namespace
+employservice/ buildService
+
+vao file gradle cua portlet them
+
+```
+	compile group: 'org.osgi', name: 'org.osgi.core', version: '4.3.0'
+
+	compile project: ("modules:employeeservice:employeeservice-api")
+
+```
+
+![](../../root/img/2019-12-12-01-53-57.png)
+CTRL F5
+
 build maven: https://books.sonatype.com/m2eclipse-book/reference/running-sect-running-maven-builds.html
 
 clean install
 ![](../../root/img/2019-12-09-23-10-57.png)
+
+## liferay 7.0 DXP
+
+https://www.youtube.com/watch?v=SIZEJpTFNDU&list=PL_WCPOWW_gJFx8atHLNCGmOc6iVbnxv7E&index=3
+
+Start server
+Use gradle to deloy portlet
+move file jar in bundles to deloy folder of server
+
+Go go shell command
+![](../../root/img/2019-12-11-21-47-53.png)
+control panel/ turn on telnet
+![](../../root/img/2019-12-11-21-48-57.png)
+telnet localhost 11311
+help
+lb
+stop 32
+start 32
+osgi service lifecycle
+
+Resolve bundle: https://mvnrepository.com/artifact/org.osgi/org.osgi.core/4.3.0
+
+Add:
+
+```.gradle
+// https://mvnrepository.com/artifact/org.osgi/org.osgi.core
+compile group: 'org.osgi', name: 'org.osgi.core', version: '4.3.0'
+// xem C:\Users\phuong\.gradle\caches\modules-2\files-2.1\org.osgi\org.osgi.core
+```
+
+hello/build/ chon build gradle
+
+Add class
+
+```java
+package com.vn.portlet;
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+
+public class HelloActivator implements BundleActivator{
+
+	@Override
+	public void start(BundleContext context) throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("Start======");
+
+	}
+
+	@Override
+	public void stop(BundleContext context) throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("Stop=======");
+
+	}
+
+}
+
+```
+
+![](../../root/img/2019-12-11-23-21-07.png)  
+Xong r deloy lai
+D:\Source\Spring\liferaywork\sample-work\bundles\osgi\modules neu tao moi
+hay nam trong hello/build/lib/ hello.1.0.0 neu nam trong work space
+hay Right click trong eclipe r open go go shell tai tab server
+
+Workspace
+https://portal.liferay.dev/download
+
+Connect to db
+![](../../root/img/2019-12-12-00-54-33.png)
+
+**Auto deloy**
+gradle.properties
+
+```
+liferay.workspace.home.dir=D://Source//Spring//liferay-ce-portal-7.2.1-ga2
+```
+
+vao servicetest buildService trong gradle
