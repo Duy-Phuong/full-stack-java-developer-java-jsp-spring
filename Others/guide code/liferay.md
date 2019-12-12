@@ -102,7 +102,7 @@ portal-ext.properties
 
 ```.properties
 jdbc.default.driverClassName=com.mysql.jdbc.Driver
-jdbc.default.url=jdbc:mysql://localhost/liferay52?useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false
+jdbc.default.url=jdbc:mysql://localhost/liferay_test?useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false
 jdbc.default.username=root
 jdbc.default.password=password (not the real one)
 ```
@@ -226,3 +226,38 @@ liferay.workspace.home.dir=D://Source//Spring//liferay-ce-portal-7.2.1-ga2
 ```
 
 vao servicetest buildService trong gradle
+
+## Lifecycle
+
+https://www.journaldev.com/4732/portlet-lifecycle
+https://livebook.manning.com/book/portlets-in-action/chapter-2/36
+https://www.opensource-techblog.com/2014/12/introduction-to-portlet-phases-and.html
+
+Full:
+https://www.opensource-techblog.com/complete-liferay-guide
+
+## Definition
+
+1. Portlet :- its web component just like servlet, provide specific functionality. It is rendered small portion of page to form complete composite web page.
+
+### Portlet Phases
+
+Following methods represents these portlet phases. These methods are known as Lifecycle of Portlet.
+
+init()
+This method will be called when portlet is deployed and instantiated by portlet container.
+render()
+This method will be called to render the content. Represent Render phase.
+processAction()
+This method will be called when any action performed.
+processEvent()
+This method will be called when any event is triggered.
+serveResource()
+This method will be called when any resource is served with resource URL.
+destroy()
+This method will be called when portlet is un-deployed by portlet container.
+
+Before moving further, I would like to share some brief characteristics of portlet.
+
+1. Mode :- Portlet has various modes like View,Edit and Help. Portlet renders its output inView mode.
+2. Phase:- Portlet has various phases like Render phase, Action phase, Serve Resource phase, Event phase etc.
