@@ -63,6 +63,12 @@ download file zip
 
 Use to get exactly value
 
+```java
+BigDecimal d1 = BigDecimal(1.233);
+BigDecimal d2 = BigDecimal(1.233);
+sout(d1.add(d2));
+```
+
 ### 9. String basics
 
 ### 9.1 09.18. Strings in Java.html
@@ -116,6 +122,8 @@ Installing Jetbrains Intellij IDEA on Ubuntu and Creating First Hello World
 Link: https://www.youtube.com/watch?v=VBkjXV1aSRA
 
 ### 6. IntelliJ Installation and hello world program in IntelliJ
+
+Xem lai!!
 
 ### 7. Import eclipse project on IntelliJ
 
@@ -205,6 +213,8 @@ Link: https://www.youtube.com/watch?v=VBkjXV1aSRA
 
 ### 14. Sum Of digit solution (Bonus)
 
+Tinh tong cac chu so cua 1 so
+
 ### 15. Project files.html
 
 ## 7. Java Methods
@@ -232,6 +242,8 @@ Link: https://www.youtube.com/watch?v=VBkjXV1aSRA
 ### 1. Naming convention
 
 ### 2. Code Block, Indentation and statements
+
+Xem lai
 
 ### 3. Java literals.html
 
@@ -327,6 +339,8 @@ Link: https://www.youtube.com/watch?v=VBkjXV1aSRA
 
 ### 24. Benefits of Polymorphism
 
+loop and print value from parent class don't care about type of child class
+
 ### 25. Project files.html
 
 ### 26. Quiz on section 9.html
@@ -350,6 +364,13 @@ Link: https://www.youtube.com/watch?v=VBkjXV1aSRA
 ### 4.1 09.03. Inner Classes.html
 
 ### 5. Types of nested class
+
+Static nested inner class
+Non-static nested inner class
+
+- Local inner class
+- Member inner class
+- Anonymous inner class
 
 ### 5.1 09.04. Types of Nested Class.html
 
