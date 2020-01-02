@@ -738,9 +738,25 @@ Non-static nested inner class
 
 ### 4. Hello Servlets
 
+Config build path/ Add external jar/ Vào link C:\Program Files\Apache Software Foundation\Tomcat 9.0\lib chọn servlet-api.jar là project sẽ hết lỗi khi import
+http://localhost:8080/Hello_Servlets/HelloWorld
+
+HelloWorld la servlet name
+Hello_Servlets al ten project
+
+co the thay doan sau bang ten file html hay jsp trong Webcontent
+
 ### 5. Hello JSP
 
 ### 6. Servlets life cycle
+
+https://www.javatpoint.com/life-cycle-of-a-servlet
+
+1. Servlet class is loaded.
+2. Servlet instance is created.
+3. init method is invoked.
+4. service method is invoked.
+5. destroy method is invoked.
 
 ### 7. JSP expressions element
 
