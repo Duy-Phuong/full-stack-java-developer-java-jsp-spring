@@ -770,21 +770,254 @@ https://www.javatpoint.com/life-cycle-of-a-servlet
 
 ### 12. Deployment descriptor and annotations
 
+Nếu sử dụng annotation @WebServlet("/HelloWorld") thì Không cần sử dụng file web.xml
+Base URL sẽ chứa cả /HelloWorld
+
+If you don't use annotation
+S01L12 - Deloyment Descriptor
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>S01L12 - Deloyment Descriptor</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>Demo</display-name>
+    <servlet-name>Demo</servlet-name>
+    <servlet-class>org.studyeasy.servlet.Demo</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Demo</servlet-name>
+    <url-pattern>/TESTING</url-pattern>
+  </servlet-mapping>
+</web-app>
+```
+
 ### 13. JSP configuration in deployment descriptor
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>S01L12 - Deloyment Descriptor</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>Demo</display-name>
+    <servlet-name>Demo</servlet-name>
+    <servlet-class>org.studyeasy.servlet.Demo</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Demo</servlet-name>
+    <url-pattern>/TESTING</url-pattern>
+  </servlet-mapping>
+
+
+
+
+    <servlet>
+    <description></description>
+    <display-name>Hello JSP</display-name>
+    <servlet-name>Hello JSP</servlet-name>
+    <jsp-file>/HelloJSP.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Hello JSP</servlet-name>
+    <url-pattern>/HelloJspPatternTEST</url-pattern>
+    </servlet-mapping>
+</web-app>
+
+
+
+```
+
+Right click file .jsp va chon Run on Server
 
 ### 14. Reading URL parameter(s)
 
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// response.getWriter().print(request.getParameter("getValue1"));
+		PrintWriter out = response.getWriter();
+		out.println("Value 1: "+request.getParameter("getValue1"));
+		out.println("Value 2: "+request.getParameter("getValue2"));
+
+	}
+```
+
+http://localhost:8080/S01L14/ParameterServlet?getValue1=1&getValue2=5
+or right click file jsp
+http://localhost:8080/S01L14/parameter.jsp?getValue1=1&getValue2=5
+
 ### 15. Include file(s) in JSP page
+
+- Create file .txt in WebContent
+- use `<%@ include file="a.txt" %>`
+
+In file jsp
+
+```html
+<!-- For adding static content -->
+<%@ include file="file1.txt" %>
+<br />
+<!-- For adding dynamic content -->
+<jsp:include page="file2.txt" />
+```
+
+http://localhost:8080/S01L15/JSPFile.jsp
 
 ### 16. Import class into Jsp page
 
+```jsp
+<%@ page import="java.util.Date,org.studyeasy.UserDefined"%> <%@ page
+language="java" contentType="text/html; charset=ISO-8859-1"
+pageEncoding="ISO-8859-1"%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>Jsp File</title>
+  </head>
+  <body>
+    <%=new Date()%>
+    <br />
+    <% out.print(new UserDefined().Demo()); %>
+  </body>
+</html>
+```
+
 ### 17. Forward and redirect under JSP
+
+```jsp
+It's from the original page <%
+//request.getRequestDispatcher("forward.jsp").forward(request, response);
+response.sendRedirect("redirect.jsp"); %>
+```
+
+Co the Sd
+<jsp:forward page="abc.jsp"></jsp:forward>
 
 ### 18. MVC overview
 
 ### 19. Exercise - Basic redirection using servlet
 
 ### 20. Basic application based on MVC
+
+Config web.xml file
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>Demo</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>Controller</display-name>
+    <servlet-name>Controller</servlet-name>
+    <servlet-class>org.studyeasy.servlet.Controller</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Controller</servlet-name>
+    <url-pattern>/Controller</url-pattern>
+  </servlet-mapping>
+</web-app>
+```
+
+index.jsp
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Home</title>
+</head>
+<body>
+It's home <br/>
+<a href="<%=request.getContextPath() %>/Controller?page=login">Login</a><br/>
+<a href="<%=request.getContextPath() %>/Controller?page=signup">Sigh Up</a><br/>
+<a href="<%=request.getContextPath() %>/Controller?page=about">About</a><br/>
+
+</body>
+</html>
+```
+
+Controller
+
+```java
+package org.studyeasy.servlet;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class Controller
+ */
+public class Controller extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public Controller() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String param = request.getParameter("page");
+		if(param.equals("login")){
+			getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
+		}else if(param.equals("signup")){
+			getServletContext().getRequestDispatcher("/signUp.jsp").forward(request, response);
+		}else if(param.equals("about")){
+			getServletContext().getRequestDispatcher("/about.jsp").forward(request, response);
+		}else {
+			getServletContext().getRequestDispatcher("/notFound.jsp").forward(request, response);
+		}
+
+
+	}
+
+}
+
+
+```
+
+http://localhost:8080/S01L20/index.jsp
 
 ### 21. Project files.html
 
