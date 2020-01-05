@@ -742,11 +742,50 @@ Config build path/ Add external jar/ Vào link C:\Program Files\Apache Software 
 http://localhost:8080/Hello_Servlets/HelloWorld
 
 HelloWorld la servlet name
-Hello_Servlets al ten project
+Hello_Servlets la ten project
 
 co the thay doan sau bang ten file html hay jsp trong Webcontent
 
+```java
+package org.studyeasy.servlets;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class HelloWorld
+ */
+@WebServlet("/HelloWorld")
+public class HelloWorld extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Default constructor.
+	 */
+	public HelloWorld() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.getWriter().println("<h1>Hello World</h1>");
+	}
+
+}
+
+```
+
 ### 5. Hello JSP
+
+Create file jsp in WebContent
 
 ### 6. Servlets life cycle
 
@@ -760,11 +799,48 @@ https://www.javatpoint.com/life-cycle-of-a-servlet
 
 ### 7. JSP expressions element
 
+```jsp
+<body>
+<h1>HELLO JSP</h1>
+
+<%= new java.util.Date()  %>
+<br/>
+<%= 25*4 %>
+<br/>
+<%= 25>4 %>
+</body>
+```
+
 ### 8. JSP scriptlets element
+
+```jsp
+<%
+for(int i=0;i<10;i++){
+	out.print("<br/>");
+	out.print(i);
+}
+%>
+```
 
 ### 9. JSP declarations element
 
+```jsp
+<%!
+    String message(){
+	return "I love JSP";
+}
+%>
+
+<%= message() %>
+
+```
+
 ### 10. JSP comment element
+
+```jsp
+ 	<%-- 	response.sendRedirect("http://studyeasy.org");	--%>
+
+```
 
 ### 11. JSP Directive element
 
