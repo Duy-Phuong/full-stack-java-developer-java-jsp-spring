@@ -1331,11 +1331,70 @@ public class Controller extends HttpServlet {
 
 ### 1. Beans overview
 
+run file getProperties.jsp
+
+```jsp
+<jsp:useBean id="user" class="org.studyeasy.beans.User" scope="session"></jsp:useBean>
+
+First Name: <jsp:getProperty property="firstName" name="user"/><br/>
+Last Name: <jsp:getProperty property="lastName" name="user"/>
+```
+
+run file setProperties.jsp
+
+```jsp
+<body>
+<jsp:useBean id="user" class="org.studyeasy.beans.User" scope="session"></jsp:useBean>
+<jsp:setProperty property="firstName" name="user" value="Chaand"/>
+<jsp:setProperty property="lastName" name="user" value="Sheikh"/>
+Values have been set
+</body>
+```
+
 ### 2. Bean scope types - session, page & application
+
+use difference browser => new session
+application scope => all browser
+page scope => 1 page => copy get sang page set
 
 ### 3. Request scope
 
+page scope => each request => copy get sang page set
+
+```jsp
+<jsp:useBean id="user" class="org.studyeasy.beans.User" scope="request"></jsp:useBean>
+
+<jsp:setProperty property="firstName" name="user" value="Chaand"/>
+<jsp:setProperty property="lastName" name="user" value="Sheikh"/>
+Values have been set<br/>
+
+<%
+
+request.getRequestDispatcher("getRequestProperty.jsp").forward(request, response);
+%>
+```
+
 ### 4. Beans with web forms
+
+set
+
+```jsp
+<jsp:useBean id="user" class="org.studyeasy.beans.User" scope="session"></jsp:useBean>
+<form action="getSessionProperty.jsp" method="post">
+First name: <input type="text" name="firstName" value='<jsp:getProperty property="firstName" name="user"/>'><br/>
+Last name: <input type="text" name="lastName" value='<jsp:getProperty property="lastName" name="user"/>'><br/>
+<input type="submit" value="submit">
+</form>
+```
+
+get
+
+```jsp
+<jsp:useBean id="user" class="org.studyeasy.beans.User" scope="session"></jsp:useBean>
+<jsp:setProperty property="*" name="user"/>
+First Name: <jsp:getProperty property="firstName" name="user"/><br/>
+Last Name: <jsp:getProperty property="lastName" name="user"/>
+```
 
 ### 5. Project files.html
 
