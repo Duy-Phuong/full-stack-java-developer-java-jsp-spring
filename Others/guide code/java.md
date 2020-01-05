@@ -909,6 +909,7 @@ S01L12 - Deloyment Descriptor
     <description></description>
     <display-name>Hello JSP</display-name>
     <servlet-name>Hello JSP</servlet-name>
+    <!-- Add new -->
     <jsp-file>/HelloJSP.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
@@ -921,7 +922,7 @@ S01L12 - Deloyment Descriptor
 
 ```
 
-Right click file .jsp va chon Run on Server
+Right click file HelloJSP.jsp va chon Run on Server
 
 ### 14. Reading URL parameter(s)
 
@@ -939,6 +940,17 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
 http://localhost:8080/S01L14/ParameterServlet?getValue1=1&getValue2=5
 or right click file jsp
 http://localhost:8080/S01L14/parameter.jsp?getValue1=1&getValue2=5
+
+file parameter.jsp
+
+```jsp
+<%
+
+out.println("Value 1: "+request.getParameter("getValue1"));
+out.println("Value 2: "+request.getParameter("getValue2"));
+
+%>
+```
 
 ### 15. Include file(s) in JSP page
 
@@ -1103,9 +1115,213 @@ http://localhost:8080/S01L20/index.jsp
 
 ### 2. Form elements (Document).html
 
+Tag
+
+Description
+
+```html
+<input>
+
+Defines an input control for the form
+
+<textarea>
+
+Defines   a multiline(text area) input control for the form
+
+<label>
+
+Defines a label for an <input> element for   the form
+
+<fieldset>
+
+Groups   related elements in a form for the form
+
+<legend>
+
+Defines a caption for a <fieldset> element   for the form
+
+<select>
+
+Defines   a drop-down list for the form
+
+<optgroup>
+
+Defines a group of related options in a drop-down   list for the form
+
+<option>
+
+Defines   an option in a drop-down list for the form
+
+<button>
+
+Defines a clickable button
+
+```
+
 ### 3. Forms under JSP
 
+6.1 Section2.zip.zip
+Create file form.jsp
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Form demo</title>
+</head>
+<body>
+<form action="submit.jsp" method="post">
+   Full name: <input type="text" name="name"/><br/>
+   Gender: <input type="radio" name="gender" value="male"> Male
+           <input type="radio" name="gender" value="female"> Female <br/>
+  Languages know: <input type="checkbox" name="language" value="English"> English
+  				  <input type="checkbox" name="language" value="Hindi"> Hindi
+  				  <input type="checkbox" name="language" value="French"> French <br/>
+  Country: <select name="country">
+           <option value="India">India</option>
+   		   <option value="USA">USA</option>
+   		   <option value="UK">UK</option>
+   		   <option value="Finland">Finland</option>
+   		   <option value="Fiji">Fiji</option>
+         </select><br/>
+         <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>
+
+```
+
+submit.jsp
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Submit</title>
+</head>
+<body>
+Name: <%= request.getParameter("name") %><br/>
+Gender: <%= request.getParameter("gender") %><br/>
+Languages known: <%
+String[] countries = request.getParameterValues("language");
+if(countries != null){
+	for(int i=0; i<countries.length;i++){
+		out.print("<br/>");
+	   out.print(countries[i]);
+
+	}
+}else{
+	out.print("None Selected");
+}
+
+%><br/>
+
+
+Country: <%= request.getParameter("country") %>
+</body>
+</html>
+```
+
+Neu sua post thanh get thi value se hien thi tren url
+
 ### 4. Forms under Servlets
+
+File jsp
+
+```jsp
+
+<form action="<%=request.getContextPath()%>/Controller" method="get">
+   Full name: <input type="text" name="name"/><br/>
+   Gender: <input type="radio" name="gender" value="male"> Male
+           <input type="radio" name="gender" value="female"> Female <br/>
+  Languages know: <input type="checkbox" name="language" value="English"> English
+  				  <input type="checkbox" name="language" value="Hindi"> Hindi
+  				  <input type="checkbox" name="language" value="French"> French <br/>
+  Country: <select name="country">
+           <option value="India">India</option>
+   		   <option value="USA">USA</option>
+   		   <option value="UK">UK</option>
+   		   <option value="Finland">Finland</option>
+   		   <option value="Fiji">Fiji</option>
+         </select><br/>
+         <input type="submit" value="Submit">
+</form>
+
+```
+
+File Controller
+
+```java
+package org.studyeasy.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class Controller
+ */
+@WebServlet("/Controller")
+public class Controller extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public Controller() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.getWriter().println(request.getParameter("name") + "<br/>");
+		response.getWriter().println(request.getParameter("gender") + "<br/>");
+
+		PrintWriter out = response.getWriter();
+		String[] countries = request.getParameterValues("language");
+		if (countries != null) {
+			for (int i = 0; i < countries.length; i++) {
+
+				out.print(countries[i]);
+				out.print("<br/>");
+			}
+		} else {
+			out.print("None Selected");
+		}
+
+		response.getWriter().println(request.getParameter("country") + "<br/>");
+
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+	}
+
+}
+
+```
 
 ### 5. Basic form validations
 
