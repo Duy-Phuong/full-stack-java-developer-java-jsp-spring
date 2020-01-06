@@ -1886,7 +1886,7 @@ https://docs.oracle.com/javaee/5/tutorial/doc/bnake.html
 Download
 https://mvnrepository.com/artifact/javax.servlet/jstl/1.2
 
-Config build path/ add jsp-api.jar and servlet-api.jar
+Config build path/ add jsp-api.jar and servlet-api.jar link tde thu muc lib cua tomcat trong o C:/
 
 Create lib folder in WEB-INF and paste file jstl
 
@@ -1918,29 +1918,148 @@ JSTL Functions
 
 ```
 
+file jsp
+
+```ts
+<c:set var="name" value="Chaand"></c:set>
+${name}
+<c:remove var="name"/>
+${param.msg}
+```
+
+url:....?msg=abc
+
 ### 3. Reading from Bean using Expression Language
+
+https://studyeasy.org/general/implicit-objects/
+
+```ts
+<body>
+<jsp:useBean id="user" class="org.studyeasy.beans.User" scope="page"></jsp:useBean>
+
+<c:out value="${user.firstName}"/>
+${user.lastName}
+</body>
+```
 
 ### 4. Decision making under JSTL
 
+```ts
+<c:if test="${param.name == 'chaand' }">
+   Hello Chaand
+</c:if>
+```
+
 ### 5. JSTL Choose and when tags
+
+```ts
+<c:choose>
+	<c:when test="${param.lang == 'Java' }">
+	  Learning Java
+	</c:when>
+	<c:when test="${param.lang == 'PHP' }">
+	  Learning PHP
+	</c:when>
+	<c:otherwise>
+	Learning something good!!
+	</c:otherwise>
+</c:choose>
+```
 
 ### 6. JSTL for loop
 
+```ts
+<c:forEach var="i" begin="0" end="29" step="3">
+${i}
+<br/>
+</c:forEach>
+```
+
 ### 7. JSTL forEach loop
+
+```ts
+	<%
+		String[] names = new String[3];
+		names[0] = "Chaand";
+		names[1] = "John";
+		names[2] = "Nikita";
+	%>
+
+	<c:forEach items="<%=names%>" var="name">
+
+		${name}
+		<br />
+
+	</c:forEach>
+
+</body>
+```
 
 ### 8. JSTL forTokens tag
 
+```ts
+<%
+String URL ="studyeasy.org";
+%>
+<c:forTokens items="<%=URL%>" delims="." var="temp">
+${temp}
+<br/>
+</c:forTokens>
+```
+
 ### 9. JSTL import and param tag
+
+```ts
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<c:import url="/include/header.jsp">
+<c:param name="title" value="New title"></c:param>
+
+</c:import>
+
+Content goes here
+
+<c:import url="/include/footer.jsp"></c:import>
+
+
+```
 
 ### 10. JSTL URL and redirect tag
 
+```ts
+<a href="<c:url value="/AnotherPage.jsp" />">Another Page</a>
+
+<c:redirect url="/AnotherPage.jsp"/>
+```
+
 ### 11. JSTL catch tag
+
+```ts
+<c:catch var="exception">
+<% int x=10/0; %>
+</c:catch>
+${exception.message}
+
+<br/>
+Testing......
+```
 
 ### 12. Project files.html
 
 ## 25. JSP & Servlets Good to know information
 
 ### 1. Good to know information
+
+```ts
+<%
+String URL = "<a href='http://studyeasy.org'>Home</a>";
+ServletContext context = getServletContext();
+context.setAttribute("url", URL);
+session.setAttribute("author", "Chaand");
+%>
+<!--${author}  -->
+${url}
+```
 
 ### 2. Project files.html
 
