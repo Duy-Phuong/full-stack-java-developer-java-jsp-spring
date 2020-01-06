@@ -2313,7 +2313,321 @@ Locale: ${param.locale}
 
 ### 1. Formatting date & number
 
+```ts
+<body>
+<c:set var="date" value="<%=new java.util.Date()%>" />
+<c:out value="${date }"></c:out>
+
+<br/>Time: <strong><fmt:formatDate type="time" value="${date}" /></strong>
+
+<br/>Date: <strong><fmt:formatDate type="date" value="${date}" /></strong>
+
+<br/>Date and Time: <strong><fmt:formatDate type="both" value="${date}" /></strong>
+
+<br/>Date and Time: <strong><fmt:formatDate type="both" value="${date}" timeZone="GMT -1" /></strong>
+
+<br/>
+<fmt:setLocale value="en_UK"/>
+<br/>Date and Time: <strong><fmt:formatDate type="both" value="${date}" timeZone="GMT -1" /></strong>
+```
+
 ### 2. Formatting date & number (Document).html
+
+```ts
+<body>
+<c:set var="someNumber" value="654321.123456"/>
+<b><c:out value="${someNumber}" /></b>
+<br/>
+<br/>
+Max Integer Digits : <fmt:formatNumber type="number" maxIntegerDigits="3" value="${someNumber}" />
+<br/>
+Max Fraction Digits :<fmt:formatNumber type="number" maxFractionDigits="3" value="${someNumber}" />
+<br/>
+Currency : <fmt:formatNumber value="${someNumber}" type="currency"/>
+<br/>
+<fmt:setLocale value="en_US"/>
+Currency : <fmt:formatNumber value="${someNumber}" type="currency"/>
+```
+
+JSTL fmt Tag formatDate
+
+Formats a date and/or time using the supplied styles and pattern
+
+Tag Information
+
+Tag Class
+
+org.apache.taglibs.standard.tag.rt.fmt.FormatDateTag
+
+TagExtraInfo Class
+
+None
+
+Body Content
+
+empty
+
+Display Name
+
+None
+
+Attributes
+
+Name
+
+Required
+
+Request-time
+
+Type
+
+Description
+
+value
+
+true
+
+true
+
+java.lang.String
+
+Date and/or time to be formatted.
+
+type
+
+false
+
+true
+
+java.lang.String
+
+Specifies whether the time, the date, or both the time and date components of the given date are to be formatted.
+
+dateStyle
+
+false
+
+true
+
+java.lang.String
+
+Predefined formatting style for dates. Follows the semantics defined in class java.text.DateFormat. Applied only when formatting a date or both a date and time (i.e. if type is missing or is equal to "date" or "both"); ignored otherwise.
+
+timeStyle
+
+false
+
+true
+
+java.lang.String
+
+Predefined formatting style for times. Follows the semantics defined in class java.text.DateFormat. Applied only when formatting a time or both a date and time (i.e. if type is equal to "time" or "both"); ignored otherwise.
+
+pattern
+
+false
+
+true
+
+java.lang.String
+
+Custom formatting style for dates and times.
+
+timeZone
+
+false
+
+true
+
+java.lang.String
+
+Time zone in which to represent the formatted time.
+
+var
+
+false
+
+false
+
+java.lang.String
+
+Name of the exported scoped variable which stores the formatted result as a String.
+
+scope
+
+false
+
+false
+
+java.lang.String
+
+Scope of var.
+
+Variables
+
+No Variables Defined.
+
+Credit: http://docs.oracle.com/javaee/5/jstl/1.1/docs/tlddocs/fmt/formatDate.html
+
+JSTL fmt Tag formatNumber
+
+Formats a numeric value as a number, currency, or percentage
+
+Tag Information
+
+Tag Class
+
+org.apache.taglibs.standard.tag.rt.fmt.FormatNumberTag
+
+TagExtraInfo Class
+
+None
+
+Body Content
+
+JSP
+
+Display Name
+
+None
+
+Attributes
+
+Name
+
+Required
+
+Request-time
+
+Type
+
+Description
+
+value
+
+false
+
+true
+
+java.lang.String
+
+Numeric value to be formatted.
+
+type
+
+false
+
+true
+
+java.lang.String
+
+Specifies whether the value is to be formatted as number, currency, or percentage.
+
+pattern
+
+false
+
+true
+
+java.lang.String
+
+Custom formatting pattern.
+
+currencyCode
+
+false
+
+true
+
+java.lang.String
+
+ISO 4217 currency code. Applied only when formatting currencies (i.e. if type is equal to "currency"); ignored otherwise.
+
+currencySymbol
+
+false
+
+true
+
+java.lang.String
+
+Currency symbol. Applied only when formatting currencies (i.e. if type is equal to "currency"); ignored otherwise.
+
+groupingUsed
+
+false
+
+true
+
+java.lang.String
+
+Specifies whether the formatted output will contain any grouping separators.
+
+maxIntegerDigits
+
+false
+
+true
+
+java.lang.String
+
+Maximum number of digits in the integer portion of the formatted output.
+
+minIntegerDigits
+
+false
+
+true
+
+java.lang.String
+
+Minimum number of digits in the integer portion of the formatted output.
+
+maxFractionDigits
+
+false
+
+true
+
+java.lang.String
+
+Maximum number of digits in the fractional portion of the formatted output.
+
+minFractionDigits
+
+false
+
+true
+
+java.lang.String
+
+Minimum number of digits in the fractional portion of the formatted output.
+
+var
+
+false
+
+false
+
+java.lang.String
+
+Name of the exported scoped variable which stores the formatted result as a String.
+
+scope
+
+false
+
+false
+
+java.lang.String
+
+Scope of var.
+
+Variables
+
+No Variables Defined.
+
+Credit: http://docs.oracle.com/javaee/5/jstl/1.1/docs/tlddocs/fmt/formatNumber.html
 
 ### 3. Project files.html
 
@@ -2321,11 +2635,42 @@ Locale: ${param.locale}
 
 ### 1. Building custom tag
 
+Tao file demo.tag trong Web-inf/tags/
+
+```ts
+<%@ tag language="java" pageEncoding="ISO-8859-1"%>
+<%@ attribute name="parameter" required="true" description="tag description" type="java.lang.Integer" %>
+<strong>Testing custom tag ${parameter}</strong>
+```
+
+demo.jsp
+
+```ts
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib tagdir="/WEB-INF/tags" prefix="d"%>
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Demo</title>
+</head>
+<body>
+<d:demo parameter="10000"/>
+</body>
+</html>
+
+
+```
+
 ### 2. Project files.html
 
 ## 32. JSP & Servlets Integrate web template
 
 ### 1. Extracting header and footer from template
+
+https://startbootstrap.com/themes/resume/
 
 ### 2. Integrate template with project
 
