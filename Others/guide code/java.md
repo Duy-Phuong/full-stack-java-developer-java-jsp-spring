@@ -2159,17 +2159,74 @@ Elements: ${fn:join(elements,'.')}
 
 ### 1. Adding Sample XML file
 
+Create xml file
+
 ### 2. JSTL XML Parse and Out tag
+
+```ts
+<body>
+	<c:import url="/Users.xml" var="XMLFile" />
+	<x:parse xml="${XMLFile}" var="XMLdoc" />
+	Name:	<x:out select="$XMLdoc/users/user[2]/name" />
+	<br />Gender:	<x:out select="$XMLdoc/users/user[2]/gender" />
+	<br /> Age:	<x:out select="$XMLdoc/users/user[2]/age" />
+
+</body>
+```
 
 ### 3. JSTL XML ForEach and If tag
 
+```ts
+<c:import url="/Users.xml" var="XMLFile" />
+	<x:parse xml="${XMLFile}" var="XMLdoc" />
+	<table border=1>
+	<x:forEach select="$XMLdoc/users/user">
+	<tr>
+	<x:if select="age > 20">
+	<td><x:out select="name" /></td>
+	<td><x:out select="gender" /></td>
+	<td><x:out select="age" /></td>
+	</x:if>
+	</tr>
+	</x:forEach>
+	</table>
+```
+
 ### 4. JSTL XML Choose When otherwise
+
+```ts
+<c:import url="/Users.xml" var="XMLFile" />
+	<x:parse xml="${XMLFile}" var="XMLdoc" />
+	<table border=1>
+	<x:forEach select="$XMLdoc/users/user">
+	<tr>
+	<x:choose>
+		<x:when select="gender='Female'">
+
+	<td><i><b><x:out select="name" /></b></i></td>
+	<td><i><b><x:out select="gender" /></b></i></td>
+	<td><i><b><x:out select="age" /></b></i></td>
+
+	</x:when>
+	<x:otherwise>
+	<td><x:out select="name" /></td>
+	<td><x:out select="gender" /></td>
+	<td><x:out select="age" /></td>
+	</x:otherwise>
+	</x:choose>
+	</tr>
+	</x:forEach>
+	</table>
+```
 
 ### 5. Project files.html
 
 ## 28. JSP & Servlets I18N Overview
 
 ### 1. Overview of I18N
+
+Internationalization => 18 char
+https://studyeasy.org/general/locale/
 
 ### 2. Locale
 
@@ -2178,6 +2235,32 @@ Elements: ${fn:join(elements,'.')}
 ## 29. JSP & Servlets Project on JSTL I18N
 
 ### 1. Setting up
+
+Right click change to UTF-8
+demo.jsp
+Sua contentType="text/html; charset=UTF-8"
+
+```ts
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>I18N Demo</title>
+</head>
+<body>
+View website in:
+<a href="?locale=en_US">English(US)</a>|
+<a href="?locale=es_AR">Argentina</a>|
+<a href="?locale=ru_RU">Russia</a>|
+<a href="?locale=hi_IN">India</a>
+<br/>
+<br/>
+```
 
 ### 2. Adding properties
 
