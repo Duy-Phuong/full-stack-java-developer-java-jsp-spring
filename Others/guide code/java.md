@@ -1402,13 +1402,230 @@ Last Name: <jsp:getProperty property="lastName" name="user"/>
 
 ### 1. Session under JSP overview
 
+word
+login
+
+```html
+<form action="<%= request.getContextPath()%>/SiteController" method="post">
+  Username: <input type="text" name="username" /><br />
+  Password: <input type="password" name="password" /><br />
+  <input type="submit" value="submit" />
+</form>
+```
+
+file controller
+
+```java
+package org.studyeasy.servlets;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ * Servlet implementation class SiteController
+ */
+@WebServlet("/SiteController")
+public class SiteController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public SiteController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+
+		if(username.equals("studyeasy") && password.equals("Love")) {
+      // remove all session
+			//Invalidating session if any
+			request.getSession().invalidate();
+			HttpSession newSession = request.getSession(true);
+		    newSession.setMaxInactiveInterval(300);
+		    response.sendRedirect("memberArea.jsp");
+
+		}else {
+			response.sendRedirect("login.jsp");
+		}
+
+	}
+
+}
+
+
+```
+
 ### 2. Introduction to cookie
+
+check in chrome, rewatch
 
 ### 3. Read and write operation of cookie
 
+Controller
+
+```java
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+
+		if(username.equals("studyeasy") && password.equals("Love")) {
+			//Invalidating session if any
+			request.getSession().invalidate();
+			HttpSession newSession = request.getSession(true);
+		    newSession.setMaxInactiveInterval(300);
+		    Cookie cUsername = new Cookie("username", username);
+		    response.addCookie(cUsername);
+		    response.sendRedirect("memberArea.jsp");
+
+		}else {
+			response.sendRedirect("login.jsp");
+		}
+
+	}
+```
+
+file jsp
+
+```jsp
+
+<body>
+	<%
+		String username = null, sessionID = null;
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("username")) {
+					username = cookie.getValue();
+				}
+				if (cookie.getName().equals("JSESSIONID")) {
+					sessionID = cookie.getValue();
+				}
+			}
+		}
+		if(sessionID == null || username == null){
+			response.sendRedirect("login.jsp");
+		}
+	%>
+	Username:	<%=username%><br />
+	Current session: <%=sessionID%><br />
+	memberArea!!
+</body>
+
+```
+
+Xem
+chrome://settings/cookies/detail?site=localhost
+
 ### 4. User logout (Via cookie)
 
+File memberArea.jsp
+
+```jsp
+Username:
+	<%=username%><br /> Current session:
+	<%=sessionID%><br /> memberArea!!
+    <form action="<%= request.getContextPath()%>/MemberAreaController" method="get">
+    <input type="hidden" name="action" value="destroy">
+    <input type="submit" value="logout">
+    </form>
+```
+
+MemberAreaController
+
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String action = request.getParameter("action");
+		switch (action) {
+		case "destroy":
+			request.getSession().invalidate();
+			Cookie[] cookies = request.getCookies();
+			for(Cookie cookie: cookies) {
+				if(cookie.getName().equals("username")) {
+					cookie.setValue(null);
+					cookie.setMaxAge(0);
+					response.addCookie(cookie);
+				}
+			}
+
+			response.sendRedirect("login.jsp");
+			break;
+
+		default:
+			break;
+		}
+	}
+```
+
 ### 5. User logout (using session attribute)
+
+Login
+
+```java
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+
+		if(username.equals("studyeasy") && password.equals("Love")) {
+			//Invalidating session if any
+			request.getSession().invalidate();
+			HttpSession newSession = request.getSession(true);
+		    newSession.setMaxInactiveInterval(300);
+			// Add
+		    newSession.setAttribute("username", username);
+		    response.sendRedirect("memberArea.jsp");
+
+		}else {
+			response.sendRedirect("login.jsp");
+		}
+
+	}
+```
+
+memberArear.jsp
+
+```ts
+	<%
+		String username = null, sessionID = null;
+	    if(request.getSession().getAttribute("username") == null){
+	    	response.sendRedirect("login.jsp");
+	    }else{
+	    	username = request.getSession().getAttribute("username").toString();
+	    	sessionID = request.getSession().getId();
+	    }
+
+
+	%>
+	Username:
+	<%=username%><br /> Current session:
+	<%=sessionID%><br /> memberArea!!
+```
 
 ### 6. Organizing application
 
@@ -2323,3 +2540,7 @@ Last Name: <jsp:getProperty property="lastName" name="user"/>
 ### 2. Consider 5 Star rating
 
 ### 3. Thanks for taking this course
+
+```
+
+```
