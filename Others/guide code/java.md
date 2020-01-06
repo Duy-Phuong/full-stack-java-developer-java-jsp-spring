@@ -1629,19 +1629,294 @@ memberArear.jsp
 
 ### 6. Organizing application
 
+create file index.jsp in Webcontent
+
+```html
+<a href="<%= request.getContextPath()%>/SiteController?action=login">Login</a>
+```
+
+File controller
+
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String action = request.getParameter("action");
+		switch (action) {
+
+		case "login":
+			request.getRequestDispatcher("login.jsp").forward(request, response);
+			break;
+
+		default:
+			break;
+		}
+	}
+```
+
 ### 7. Fixing Redirect and forward links
+
+Redirect chua dung nen sua lai 2 file controller
+SiteController
+
+```java
+package org.studyeasy.servlets;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ * Servlet implementation class SiteController
+ */
+@WebServlet("/SiteController")
+public class SiteController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public SiteController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String action = request.getParameter("action");
+		switch (action) {
+
+		case "login":
+			request.getRequestDispatcher("login.jsp").forward(request, response);
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String action = request.getParameter("action");
+		switch (action) {
+		case "loginSubmit":
+			authenticate(request, response);
+			break;
+
+		default:
+			break;
+		}
+
+	}
+	// add
+	public void authenticate(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+
+		if(username.equals("studyeasy") && password.equals("Love")) {
+			//Invalidating session if any
+			request.getSession().invalidate();
+			HttpSession newSession = request.getSession(true);
+		    newSession.setMaxInactiveInterval(300);
+		    newSession.setAttribute("username", username);
+			// Add
+		    response.sendRedirect(request.getContextPath()+"/MemberAreaController?action=memberArea");
+
+		}else {
+			response.sendRedirect(request.getContextPath()+"/SiteController?action=login");
+		}
+	}
+
+}
+
+```
+
+MemberAreaController
+
+```java
+@WebServlet("/MemberAreaController")
+public class MemberAreaController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public MemberAreaController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String action = request.getParameter("action");
+		switch (action) {
+		case "destroy":
+			request.getSession().invalidate();
+			response.sendRedirect(request.getContextPath()+"/SiteController?action=login");
+			break;
+		case "memberArea":
+			request.getRequestDispatcher("memberArea.jsp").forward(request, response);
+			break;
+		default:
+
+			break;
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+
+```
+
+Sua file jsp
 
 ### 8. Handling session without cookie
 
+chrome://settings/content/cookies
+disable button use cookie => cannot login
+Neu session khong dk enable no se use encode url
+=> URL will not show the session ID
+
+```java
+newSession.setAttribute("username", username);
+		    String encode = response.encodeURL(request.getContextPath());
+		    response.sendRedirect(encode+"/MemberAreaController?action=memberArea");
+```
+
 ### 9. Servlet Filters
+
+File new/ Filter
+
+```java
+package org.studyeasy.filters;
+
+import java.io.IOException;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet Filter implementation class MemberAreaFilter
+ */
+@WebFilter("/MemberAreaController") // add
+public class MemberAreaFilter implements Filter {
+
+	/**
+	 * Default constructor.
+	 */
+	public MemberAreaFilter() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see Filter#destroy()
+	 */
+	public void destroy() {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
+	 */
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+			throws IOException, ServletException {
+
+		HttpServletResponse response = (HttpServletResponse) res;
+		HttpServletRequest request =  (HttpServletRequest) req;
+		if(request.getSession().getAttribute("username")==null) {
+			response.sendRedirect(request.getContextPath()+"/SiteController?action=login");
+		}else {
+			chain.doFilter(request, response);
+		}
+	}
+
+	/**
+	 * @see Filter#init(FilterConfig)
+	 */
+	public void init(FilterConfig fConfig) throws ServletException {
+		// TODO Auto-generated method stub
+	}
+
+}
+
+```
+
+Chua login vao memberArea se bi da ra login
 
 ### 10. Project files.html
 
 ## 24. JSP & Servlets JSTL core tags
 
+https://docs.oracle.com/javaee/5/tutorial/doc/bnake.html
+
 ### 1. JSTL setting up
 
+Download
+https://mvnrepository.com/artifact/javax.servlet/jstl/1.2
+
+Config build path/ add jsp-api.jar and servlet-api.jar
+
+Create lib folder in WEB-INF and paste file jstl
+
 ### 2. JSTL set and remove tags
+
+https://studyeasy.org/jstl/jstl-taglibs/
+
+```ts
+Core Tags
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+Formatting Tags
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+SQL Tags
+<%@ taglib prefix = "sql" uri = "http://java.sun.com/jsp/jstl/sql" %>
+
+<%@ taglib prefix = "sql" uri = "http://java.sun.com/jsp/jstl/sql" %>
+XML tags
+<%@ taglib prefix = "x" uri = "http://java.sun.com/jsp/jstl/xml" %>
+
+<%@ taglib prefix = "x" uri = "http://java.sun.com/jsp/jstl/xml" %>
+JSTL Functions
+<%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
+
+<%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
+
+```
 
 ### 3. Reading from Bean using Expression Language
 
