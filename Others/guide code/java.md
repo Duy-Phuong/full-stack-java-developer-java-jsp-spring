@@ -2671,6 +2671,7 @@ demo.jsp
 ### 1. Extracting header and footer from template
 
 https://startbootstrap.com/themes/resume/
+https://templatemag.com/demo/Solid/
 
 ### 2. Integrate template with project
 
