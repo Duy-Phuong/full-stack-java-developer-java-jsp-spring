@@ -2909,7 +2909,7 @@ public class Demo extends HttpServlet {
 ### 1. Setting up
 
 ### 2. Listing data on webpage (Part 1)
-
+Chinh header link de forward ve home
 ### 3. Listing data on webpage (Part 2)
 
 ### 4. Making use of include directive
