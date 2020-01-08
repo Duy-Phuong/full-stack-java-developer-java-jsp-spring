@@ -2675,13 +2675,151 @@ https://templatemag.com/demo/Solid/
 
 ### 2. Integrate template with project
 
+Tao folder include trong WebContent roi copy header and footer vao  
+Tao thu muc asset
+Tao file demo.jsp
+
+```java
+<jsp:include page="/include/header.jsp" />
+
+<div class="container mtb">
+	<div class="row">
+		<div class="col-lg-6">
+			<h1>Hello World</h1>
+		</div>
+	</div>
+</div>
+<jsp:include page="/include/footer.jsp" />
+```
+
 ### 3. Integrate template with project using JSTL
+
+```ts
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+
+<c:import url="include/header.jsp"><c:param name="title" value="Demo Page"/></c:import>
+<div class="container mtb">
+	<div class="row">
+		<div class="col-lg-6">
+			<h1>Hello World!</h1>
+		</div>
+	</div>
+</div>
+<c:import url="include/footer.jsp"></c:import>
+```
+
+header.jsp
+
+```ts
+<title>${param.title}</title>
+```
 
 ### 4. Project files.html
 
 ## 33. JSP & Servlets Revisiting Servlets
 
 ### 1. Servlets initialization
+
+Chinh sua Url thanh /
+Home.jsp
+
+```java
+package org.studyeasy;
+
+import java.io.IOException;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class Home
+ */
+@WebServlet("/")
+public class Home extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	// Add
+    String message;
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public Home() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see Servlet#init(ServletConfig)
+	 */
+	public void init(ServletConfig config) throws ServletException {
+		message = "Message from init method";
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		response.getWriter().print(message);
+	}
+
+
+}
+
+```
+
+Khi tao class add param bang eclipse
+Demo2.jsp
+
+```java
+package org.studyeasy;
+
+import java.io.IOException;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class Demo2
+ */
+@WebServlet(urlPatterns = { "/Demo2" }, initParams = {
+		@WebInitParam(name = "message2", value = "initialization from annotation", description = "initialization from annotation description") })
+public class Demo2 extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public Demo2() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+	  ServletConfig config = getServletConfig();
+	  String message2 = config.getInitParameter("message2");
+	  response.getWriter().print(message2);
+	}
+
+}
+
+```
+
+Xem file word
 
 ### 2. Understanding more about Servlet
 
@@ -2691,11 +2829,78 @@ https://templatemag.com/demo/Solid/
 
 ### 1. Setting tools required
 
+file word
+
 ### 2. Use of workbench
 
 ### 3. Setting up JNDI
 
+file word
+
 ### 4. Testing connection
+
+```java
+package org.studyeasy;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.annotation.Resource;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+
+@WebServlet("/Demo")
+public class Demo extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	@Resource(name = "jdbc/project")
+	private DataSource dataSource;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// Step 1: Initialize connection objects
+		   PrintWriter out = response.getWriter();
+           Connection connect = null;
+           Statement stmt = null;
+           ResultSet rs = null;
+           try {
+			connect = dataSource.getConnection();
+
+			// Step 2: Create a SQL statements string
+			String query = "Select * from users";
+			stmt = connect.createStatement();
+
+			// Step 3: Execute SQL query
+            rs = stmt.executeQuery(query);
+
+			// Step 4: Process the result set
+			while(rs.next()){
+				out.print("<br/>"+rs.getString("email"));
+			}
+
+
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+	}
+
+}
+
+
+
+
+```
 
 ### 5. Project files.html
 
