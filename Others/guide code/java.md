@@ -2908,12 +2908,174 @@ public class Demo extends HttpServlet {
 
 ### 1. Setting up
 
+make use of template project
+Create file index.jsp, error.jsp
+web.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <display-name>S16L01 - Setting up</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/error.jsp</location>
+  </error-page>
+</web-app>
+```
+
+HomeController
+
+```java
+@WebServlet("/home")
+public class HomeController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	}
+
+}
+```
+
 ### 2. Listing data on webpage (Part 1)
+
 Chinh header link de forward ve home
+
 ### 3. Listing data on webpage (Part 2)
 
-### 4. Making use of include directive
+Home
 
+```java
+
+@WebServlet("/home")
+public class HomeController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	@Resource(name="jdbc/project")
+	private DataSource dataSource;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String page = request.getParameter("page");
+		page = page.toLowerCase();
+
+		switch (page) {
+		case "home":
+			request.getRequestDispatcher("index.jsp").forward(request, response);
+			break;
+		case "listusers":
+			List<User> listUsers = new ArrayList<>();
+			listUsers = new UsersModel().listUsers(dataSource);
+			request.setAttribute("listUsers", listUsers);
+			request.getRequestDispatcher("listUser.jsp").forward(request, response);
+			break;
+		default:
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		}
+
+	}
+
+}
+```
+
+Model
+
+```java
+public class UsersModel {
+
+	public List<User> listUsers(DataSource dataSource) {
+		// Step 1: Initialize connection objects
+		List<User> listUsers = new ArrayList<>();
+        Connection connect = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+			connect = dataSource.getConnection();
+
+			// Step 2: Create a SQL statements string
+			String query = "Select * from users";
+			stmt = connect.createStatement();
+
+			// Step 3: Execute SQL query
+         rs = stmt.executeQuery(query);
+
+			// Step 4: Process the result set
+			while(rs.next()){
+				listUsers.add(new User(rs.getInt("users_id"), rs.getString("username"), rs.getString("email")));
+			}
+
+
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return listUsers;
+	}
+
+}
+```
+
+listUser.java
+
+```js
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="java.util.List" %>
+<%@ page import="org.studyeasy.entity.User" %>
+<c:import url="include/header.jsp"><c:param name="title" value="List Users"/></c:import>
+<div class="container mtb">
+	<div class="row">
+		<div class="col-lg-6">
+			<strong>Listing users</strong>
+			<hr/>
+			<table border="1">
+			<thead>
+			<th>User ID </th>
+			<th>Username </th>
+			<th>Email </th>
+			</thead>
+			<%
+			List<User> listUsers = (List)request.getAttribute("listUsers");
+			for(int i=0;i<listUsers.size(); i++){
+				out.print("<tr>");
+				out.print("<td>"+listUsers.get(i).getUsers_id()+"</td>");
+				out.print("<td>"+listUsers.get(i).getUsername()+"</td>");
+				out.print("<td>"+listUsers.get(i).getEmail()+"</td>");
+				out.print("</tr>");
+			}
+
+			%>
+			</table>
+		</div>
+	</div>
+</div>
+<c:import url="include/footer.jsp"></c:import>
+```
+
+### 4. Making use of include directive
+listUser
+```js
+<%@include file="include/header.jsp" %>
+
+```
+
+Header.jsp
+```js
+    <title><% 
+    if( request.getAttribute("title") == null){
+        out.print("Homepage");
+    }else{
+    	out.print(request.getAttribute("title"));
+    }
+    %></title>
+```
 ### 5. Project files.html
 
 ## 36. JSP & Servlets Add record(s) into database
