@@ -3197,11 +3197,122 @@ public boolean addUser(DataSource dataSource, User newUser) {
 
 ### 1. Upgrading the list
 
+Them link update o table
+listUser.jsp
+
+```ts
+<%
+			List<User> listUsers = (List)request.getAttribute("listUsers");
+			String tempURL;
+			for(int i=0;i<listUsers.size(); i++){
+				out.print("<tr>");
+				out.print("<td>"+listUsers.get(i).getUsers_id()+"</td>");
+				out.print("<td>"+listUsers.get(i).getUsername()+"</td>");
+				out.print("<td>"+listUsers.get(i).getEmail()+"</td>");
+				tempURL = request.getContextPath()+"/operation?page=update&usersId="+listUsers.get(i).getUsers_id();
+				out.print("<td><a href="+tempURL+">Update</a></td>");
+				out.print("</tr>");
+			}
+
+			%>
+```
+
 ### 2. Updating Controller
 
 ### 3. Populating form
 
+get param from url
+ListUser
+
+```java
+tempURL = request.getContextPath()+"/operation?page=updateUser"+
+						"&usersId="+listUsers.get(i).getUsers_id()+
+						"&username="+listUsers.get(i).getUsername()+
+						"&email="+listUsers.get(i).getEmail();
+```
+
+updateUser
+
+```ts
+<%@include file="include/header.jsp" %>
+<div class="container mtb">
+	<div class="row">
+		<div class="col-lg-6">
+		<form action="${pageContext.request.contextPath}/operation" method="post">
+		Username: <input type="text" name="username" value="${param.username }" required="required"/><br/>
+		Email: <input type="email" name="email" value="${param.email }" required="required"/><br/>
+		<input type="hidden" name="usersId" value="${param.usersId }"/>
+		<input type="hidden" name="form" value="updateUserOperation"/>
+		<input type="submit" value="Update User"/>
+		</form>
+		</div>
+	</div>
+</div>
+<%@include file="include/footer.jsp" %>
+```
+
 ### 4. Adding Update functionality
+
+OperationController
+
+```java
+@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String operation = request.getParameter("form");
+		operation = operation.toLowerCase();
+		switch (operation) {
+		case "adduseroperation":
+			User newUser = new User(request.getParameter("username"), request.getParameter("email"));
+			addUserOperation(newUser);
+			listUsers(request, response);
+			break;
+		case "updateuseroperation":
+			User updatedUser = new User(Integer.parseInt(request.getParameter("usersId")),
+					request.getParameter("username"), request.getParameter("email"));
+			updateUserOperation(dataSource, updatedUser);
+			listUsers(request, response);
+			break;
+		default:
+			errorPage(request, response);
+			break;
+		}
+	}
+
+	private void updateUserOperation(DataSource dataSource, User updatedUser) {
+		new UsersModel().updateUser(dataSource,updatedUser);
+		return;
+
+	}
+
+```
+
+userModel
+
+```java
+public void updateUser(DataSource dataSource, User updatedUser) {
+		Connection connect = null;
+		PreparedStatement statement = null;
+		try {
+			connect = dataSource.getConnection();
+			int usersId = updatedUser.getUsers_id();
+			String username = updatedUser.getUsername();
+			String email = updatedUser.getEmail();
+			String query = "update users set username = ? , email = ? where users_Id = ? ";
+			statement = connect.prepareStatement(query);
+			statement.setString(1, username);
+			statement.setString(2, email);
+			statement.setInt(3, usersId);
+			statement.execute();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+
+	}
+```
 
 ### 5. Project files.html
 
