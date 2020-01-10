@@ -3060,15 +3060,18 @@ listUser.java
 ```
 
 ### 4. Making use of include directive
+
 listUser
+
 ```js
 <%@include file="include/header.jsp" %>
 
 ```
 
 Header.jsp
+
 ```js
-    <title><% 
+    <title><%
     if( request.getAttribute("title") == null){
         out.print("Homepage");
     }else{
@@ -3076,17 +3079,117 @@ Header.jsp
     }
     %></title>
 ```
+
 ### 5. Project files.html
 
 ## 36. JSP & Servlets Add record(s) into database
 
 ### 1. Form implementation for record addition
 
+HomeController
+
+```java
+public void addUser(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setAttribute("title", "Add User");
+		request.getRequestDispatcher("addUser.jsp").forward(request, response);
+
+	}
+```
+
+addUser.jsp
+
+```js
+<%@include file="include/header.jsp" %>
+<div class="container mtb">
+	<div class="row">
+		<div class="col-lg-6">
+		<form action="${pageContext.request.contextPath}/appController">
+		Username: <input type="text" name="username"/><br/>
+		Email: <input type="text" name="email"/><br/>
+		<input type="submit" value="Add User">
+
+
+		</form>
+		</div>
+	</div>
+</div>
+<%@include file="include/footer.jsp" %>
+```
+
 ### 2. Organizing application
+
+Tach controller ra xu ly cho gon, action de o file operation xu ly
 
 ### 3. Almost done
 
+Add hidden field:
+
+```js
+<form action="${pageContext.request.contextPath}/operation" method="post">
+		Username: <input type="text" name="username" required="required"/><br/>
+		Email: <input type="email" name="email" required="required"/><br/>
+		<input type="hidden" name="form" value="addUserOperation">
+		<input type="submit" value="Add User">
+		</form>
+```
+
+Operation Controller
+
+```java
+@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String operation = request.getParameter("form");
+		operation = operation.toLowerCase();
+		switch (operation) {
+		case "adduseroperation":
+		User newUser = new User(request.getParameter("username"), request.getParameter("email"));
+        addUserOperation(newUser);
+        listUsers(request, response);
+		default:
+			errorPage(request, response);
+			break;
+		}
+	}
+```
+
 ### 4. Finalize the feature
+
+Operation Controller
+
+```java
+public void addUserFormLoader(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setAttribute("title", "Add User");
+		request.getRequestDispatcher("addUser.jsp").forward(request, response);
+
+	}
+```
+
+UsersModel.java
+
+```java
+public boolean addUser(DataSource dataSource, User newUser) {
+		Connection connect = null;
+		PreparedStatement statement = null;
+		try {
+			connect = dataSource.getConnection();
+			String username = newUser.getUsername();
+			String email = newUser.getEmail();
+			String query = "insert into users (username,email) values (?,?)";
+			statement = connect.prepareStatement(query);
+			statement.setString(1, username);
+			statement.setString(2, email);
+			return statement.execute();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+```
 
 ### 5. Project files.html
 
