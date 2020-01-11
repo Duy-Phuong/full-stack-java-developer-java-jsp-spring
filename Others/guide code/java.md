@@ -3332,7 +3332,9 @@ list user
 ```
 
 ### 2. Adding delete functionality
+
 model
+
 ```java
 public void deleteUser(DataSource dataSource,int usersID) {
 		Connection connect = null;
@@ -3342,34 +3344,37 @@ public void deleteUser(DataSource dataSource,int usersID) {
 			String query = "delete from users where users_Id = ? ";
 			statement = connect.prepareStatement(query);
 			statement.setInt(1, usersID);
-			statement.execute();	
+			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			
+
 		}
-		
+
 	}
 
 ```
+
 ### 3. Project files.html
 
 ## 39. JSP & Servlets Adding JSTL support
 
 ### 1. Add JSTL support
+
 list user chuyen thanh
+
 ```ts
 <c:forEach items="${listUsers}" var="user">
 				<c:url var="updateURL" value="operation">
-				<c:param name="page" value="updateUser"></c:param>			
+				<c:param name="page" value="updateUser"></c:param>
 				<c:param name="usersId" value="${user.users_id}"></c:param>
 				<c:param name="username" value="${user.username}"></c:param>
 				<c:param name="email" value="${user.email}"></c:param>
 				</c:url>
-			
+
 				<c:url var="deleteUser" value="operation">
-				<c:param name="page" value="deleteUser"></c:param>			
+				<c:param name="page" value="deleteUser"></c:param>
 				<c:param name="usersId" value="${user.users_id}"></c:param>
-				</c:url>			
+				</c:url>
  				<tr>
  				<td>${user.users_id}</td>
  				<td>${user.username}</td>
@@ -3379,12 +3384,30 @@ list user chuyen thanh
  				<a href="${deleteUser}"
 					onclick="if(!confirm('Are you sure to delete the user?')) return false">Delete</a>
  				</td>
- 				</tr>			
+ 				</tr>
 				</c:forEach>
 ```
+
 ### 2. Project files.html
 
 ## 40. JSP & Servlets ImageFile upload
+
+Add jsp-api and servlet-api
+index.jsp
+
+```ts
+<form action="ImageUpload" method="post" enctype="multipart/form-data">
+  Select images <input type="file" name="files" multiple />
+  <input type="submit" value="upload" />
+</form>
+```
+
+tai https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload/1.3.2
+
+doawnload common-io.jar
+https://mvnrepository.com/artifact/commons-io/commons-io/2.2
+
+Sau do copy vao thu muc lib
 
 ### 1. Image upload form
 
