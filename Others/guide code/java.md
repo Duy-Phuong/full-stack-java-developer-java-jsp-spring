@@ -3413,6 +3413,37 @@ Sau do copy vao thu muc lib
 
 ### 2. Handle image files
 
+Phai cap quyen write cho folder images
+Right click/ props/ add/ nhap everyone/ Check name
+
+```java
+@WebServlet("/ImageUpload")
+public class ImageUpload extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+      ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+
+      try {
+		List<FileItem> images = upload.parseRequest(request);
+		for(FileItem image: images) {
+			String name = image.getName();
+			try{name = name.substring(name.lastIndexOf("\\")+1);} catch(Exception e) {}
+			System.out.println(name);
+			image.write(new File("c:/images/"+name));
+		}
+
+
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+	}
+
+```
+
 ### 3. Upload image onto filesystem
 
 ### 4. Project files.html
@@ -3423,6 +3454,8 @@ Sau do copy vao thu muc lib
 
 ### 2. Hibernate Overview
 
+Hibernate ORM is an object-relational-mapping tool for java
+
 ### 3. Installing MySQL
 
 ### 4. SQL workbench
@@ -3430,6 +3463,14 @@ Sau do copy vao thu muc lib
 ## 42. Hibernate Hibernate Framework
 
 ### 1. Setting up Project
+
+Create java project
+Download hibernate ORM: http://hibernate.org/orm/
+Download mysql connector jar
+https://dev.mysql.com/downloads/connector/j/
+Copy tất cả lib paste vào thư mục lib của project mới tạo ra:
+hibernate-release-5.4.6.Final\lib\required
+Copy connector jdbc vào lib và sau đó vào build path/ Add jar
 
 ### 2. Setting Up Hibernate Configuration File
 
