@@ -3970,7 +3970,28 @@ public class ImageUpload extends HttpServlet {
 
 ```
 ### 2. List available files
+FileDao
+```java
+public List<Files> listFiles(){
+		Session session = factory.getCurrentSession();
+		session.beginTransaction();
+		List<Files> files =  session.createQuery("from files").getResultList();
+		//session.getTransaction().commit();	
+		return files;
+	}
+```
 
+ImageFileUpload
+```java
+private void listingImages(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		List<Files> files = new FilesDAO().listFiles();
+		request.setAttribute("files", files);
+		request.setAttribute("path", path);
+		request.getRequestDispatcher("listFiles.jsp").forward(request, response);
+
+	}
+```
 ### 3. Display image files on JSP page
 
 ### 4. Improve view of the page
