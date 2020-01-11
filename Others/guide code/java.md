@@ -3356,7 +3356,32 @@ public void deleteUser(DataSource dataSource,int usersID) {
 ## 39. JSP & Servlets Adding JSTL support
 
 ### 1. Add JSTL support
-
+list user chuyen thanh
+```ts
+<c:forEach items="${listUsers}" var="user">
+				<c:url var="updateURL" value="operation">
+				<c:param name="page" value="updateUser"></c:param>			
+				<c:param name="usersId" value="${user.users_id}"></c:param>
+				<c:param name="username" value="${user.username}"></c:param>
+				<c:param name="email" value="${user.email}"></c:param>
+				</c:url>
+			
+				<c:url var="deleteUser" value="operation">
+				<c:param name="page" value="deleteUser"></c:param>			
+				<c:param name="usersId" value="${user.users_id}"></c:param>
+				</c:url>			
+ 				<tr>
+ 				<td>${user.users_id}</td>
+ 				<td>${user.username}</td>
+ 				<td>${user.email}</td>
+ 				<td>
+ 				<a href="${updateURL}">Update</a>|
+ 				<a href="${deleteUser}"
+					onclick="if(!confirm('Are you sure to delete the user?')) return false">Delete</a>
+ 				</td>
+ 				</tr>			
+				</c:forEach>
+```
 ### 2. Project files.html
 
 ## 40. JSP & Servlets ImageFile upload
