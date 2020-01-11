@@ -3474,9 +3474,117 @@ Copy connector jdbc vào lib và sau đó vào build path/ Add jar
 
 ### 2. Setting Up Hibernate Configuration File
 
+hibernate.cfg.xml
+
+```xml
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <!-- Connection settings -->
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+              <!-- Sample MySQL URL provided  -->
+        <property name="connection.url">jdbc:mysql://localhost:3306/project</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">root</property>
+
+        <!-- Show SQL on console -->
+        <property name="show_sql">true</property>
+
+		<!--Setting Session context model -->
+		<property name="current_session_context_class">thread</property>
+
+    </session-factory>
+</hibernate-configuration>
+```
+
 ### 3. Session Factory and Session
 
 ### 4. Adding Entity Class (Part 1)
+
+User
+
+```java
+package org.studyeasy.hibernate.entity;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "users")
+public class Users {
+
+	@Id
+	@Column(name = "user_id")
+	int userId;
+
+	@Column(name = "username")
+	String username;
+
+	@Column(name = "password")
+	String password;
+
+	@Column(name = "first_name")
+	String firstName;
+
+	@Column(name = "last_name")
+	String lastName;
+
+
+	public Users(String username, String password, String firstName, String lastName) {
+		this.username = username;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+}
+```
 
 ### 5. Adding Entity Class (Part 2)
 
@@ -3484,11 +3592,104 @@ Copy connector jdbc vào lib và sau đó vào build path/ Add jar
 
 ### 7. Hibernate in Action (Part 2)
 
+```java
+package org.studyeasy.hibernate;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.studyeasy.hibernate.entity.Users;
+
+public class App {
+
+  public static void main(String[] args) {
+
+	  SessionFactory factory = new Configuration()
+			                   .configure("hibernate.cfg.xml")
+			                   .addAnnotatedClass(Users.class)
+			                   .buildSessionFactory();
+
+	  Session session = factory.getCurrentSession();
+
+	  try {
+		  // Create object of entity class type
+		  Users user = new Users("username", "password", "firstName", "lastName");
+		  // Start transaction
+		  session.beginTransaction();
+		  // Perform operation
+		  session.save(user);
+		  // Commit the transaction
+		  session.getTransaction().commit();
+		  System.out.println("Row added!");
+
+
+	} finally {
+		session.close();
+		factory.close();
+	}
+
+}
+}
+
+
+
+```
+
 ### 8. CRUD - Retriving Record from Database
+
+Add default constructor
+
+```java
+public static void main(String[] args) {
+
+	  SessionFactory factory = new Configuration()
+			                   .configure("hibernate.cfg.xml")
+			                   .addAnnotatedClass(Users.class)
+			                   .buildSessionFactory();
+
+	  Session session = factory.getCurrentSession();
+
+	  try {
+		  // Create object of entity class type
+		  Users user = new Users();
+		  // Start transaction
+		  session.beginTransaction();
+		  // Perform operation
+		  user = session.get(Users.class, 8);
+		  // Commit the transaction
+		  session.getTransaction().commit();
+		  System.out.println(user);
+
+
+	} finally {
+		session.close();
+		factory.close();
+	}
+
+}
+```
 
 ### 9. CRUD - Updating a Record in Database
 
+```java
+// Perform operation
+		  user = session.get(Users.class, 8);
+		  // Updating object
+		  user.setUsername("admin@studyeasy.org");
+
+		  // Commit the transaction
+		  session.getTransaction().commit();
+		  System.out.println(user);
+```
+
 ### 10. CRUD - Deleting Record from Database
+
+```java
+// Perform operation
+		  user = session.get(Users.class, 8);
+		  //Deleting a Record with user id 8
+		  session.delete(user);
+```
 
 ### 11. Project files.html
 
@@ -3496,11 +3697,64 @@ Copy connector jdbc vào lib và sau đó vào build path/ Add jar
 
 ### 1. Listing Records
 
+```java
+try {
+		  // Start transaction
+		  session.beginTransaction();
+
+		  List<Users> users = session.createQuery("from users").getResultList();
+
+		  for (Users temp : users) {
+			System.out.println(temp);
+		}
+
+	} finally {
+		session.close();
+		factory.close();
+	}
+```
+
+entity phai them moco the SD HQL
+
+```java
+@Entity(name="users")
+```
+
 ### 2. HQL The Where Clause
+
+```java
+// Start transaction
+		  session.beginTransaction();
+
+		  List<Users> users = session.createQuery("from users where firstName = 'salim'"
+		  		+ "OR last_name like '%a%n%'")
+				  .getResultList();
+
+		  for (Users temp : users) {
+			System.out.println(temp);
+		}
+```
 
 ### 3. Update Records using HQL
 
+```java
+session.beginTransaction();
+			session.createQuery("update users set password = 'passwordVidya' "
+					+ "where first_name = 'vidya'")
+					.executeUpdate();
+			session.getTransaction().commit();
+
+```
+
 ### 4. Deleting Record using HQL
+
+```java
+session.beginTransaction();
+			session.createQuery("delete from users where user_id =5")
+					.executeUpdate();
+			session.getTransaction().commit();
+
+```
 
 ### 5. Project files.html
 
@@ -3510,12 +3764,102 @@ Copy connector jdbc vào lib và sau đó vào build path/ Add jar
 
 ### 2. Add Hibernate Support
 
+https://studyeasy.org/hibernate/hibernate-configuration-xml/
+
 ### 3. Understanding Hibernate configuration
 
 ### 4. Hibernate entity class
 
-### 5. Hibernate in action
+```java
+package org.studyeasy.hibernate.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity(name="files")
+@Table(name="files")
+public class Files {
+	@Id
+	@Column(name="id")
+	int id;
+	@Column(name="file_name")
+	String fileName;
+	@Column(name="label")
+	String label;
+	@Column(name="caption")
+	String caption;
+
+	public Files() {}
+
+	public Files(String fileName) {
+		super();
+		this.fileName = fileName;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public String getCaption() {
+		return caption;
+	}
+
+	public void setCaption(String caption) {
+		this.caption = caption;
+	}
+}
+
+```
+
+### 5. Hibernate in action
+```java
+package org.studyeasy.hibernate.DAO;
+
+
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.studyeasy.hibernate.entity.Files;
+
+public class FilesDAO {
+	SessionFactory factory = new Configuration()
+			                 .configure("hibernate.cfg.xml")
+			                 .addAnnotatedClass(Files.class)
+			                 .buildSessionFactory();
+	
+	public void addFileDetails(Files file) {
+		Session session = factory.getCurrentSession();
+		session.beginTransaction();
+		session.save(file);
+		session.getTransaction().commit();
+		System.out.println(file.getFileName()+" Got added");
+	}
+}
+
+```
 ### 6. Project files.html
 
 ## 45. JSP & Servlets Building the application
