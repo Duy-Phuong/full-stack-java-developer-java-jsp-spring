@@ -3320,8 +3320,37 @@ public void updateUser(DataSource dataSource, User updatedUser) {
 
 ### 1. Upgrading the list
 
-### 2. Adding delete functionality
+list user
 
+```ts
+<a
+  href="<%=deleteURL%>"
+  onclick="if(!confirm('Are you sure to delete the user?')) return false"
+>
+  Delete
+</a>
+```
+
+### 2. Adding delete functionality
+model
+```java
+public void deleteUser(DataSource dataSource,int usersID) {
+		Connection connect = null;
+		PreparedStatement statement = null;
+		try {
+			connect = dataSource.getConnection();
+			String query = "delete from users where users_Id = ? ";
+			statement = connect.prepareStatement(query);
+			statement.setInt(1, usersID);
+			statement.execute();	
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		}
+		
+	}
+
+```
 ### 3. Project files.html
 
 ## 39. JSP & Servlets Adding JSTL support
