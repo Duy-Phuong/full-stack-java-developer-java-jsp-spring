@@ -3997,11 +3997,95 @@ private void listingImages(HttpServletRequest request, HttpServletResponse respo
 ### 4. Improve view of the page
 
 ### 5. Adding update information form
+listFile
+```ts
+<%
 
+ String form = "<form action='FilesHandler' method='post'>"+
+               "Label: <input type='text' name='label'/><br/><br/>"+
+               "Caption: <input type='text' name='caption'/><br/><br/>"+
+               "<input type='hidden' name='feildId' value='"+fileId+"'/>"+
+               "<input type='submit' value='Update'>"+
+               "</form>";
+%>
+<h1>Listing images</h1>
+<table border="1">
+<tr>
+<th>Preview</th>
+<th>Available information</th>
+<th>Update information</th>
+<th>Action</th>
+<%
+   String path = (String) request.getAttribute("path");
+   List<Files> files = (List<Files>) request.getAttribute("files");
+   for(Files file: files){
+	   out.print("<tr><td><img src="+path+file.getFileName()+" height='200'></td>");
+	   out.print("<td><ul>"+
+			   "<li>File ID: "+file.getId()+"</li>"+
+			   "<li>File name: "+file.getFileName()+"</li>"+
+			   "<li>File Label: "+file.getLabel()+"</li>"+
+			   "<li>File Caption: "+file.getCaption()+"</li>"+
+			   "</ul></td>"+
+			   "<td>"+form+"</td></tr>"
+			   );
+	   
+   }
+%>
+
+</table>
+```
 ### 6. Implement update information functionality
+listFile
+```ts
+<%
+   String path = (String) request.getAttribute("path");
+   List<Files> files = (List<Files>) request.getAttribute("files");
+   for(Files file: files){
+	   out.print("<tr><td><img src="+path+file.getFileName()+" height='200'></td>");
+	   out.print("<td><ul>"+
+			   "<li>File ID: "+file.getId()+"</li>"+
+			   "<li>File name: "+file.getFileName()+"</li>"+
+			   "<li>File Label: "+file.getLabel()+"</li>"+
+			   "<li>File Caption: "+file.getCaption()+"</li>"+
+			   "</ul></td>");
+	   fileId = file.getId();
+	   String form = "<form action='FilesHandler' method='post'>"+
+               "Label: <input type='text' name='label'/><br/><br/>"+
+               "Caption: <input type='text' name='caption'/><br/><br/>"+
+               "<input type='hidden' name='fileId' value='"+fileId+"'/>"+
+               "<input type='hidden' name='action' value='updateInformation'/>"+
+               "<input type='submit' value='Update'>"+
+               "</form>";
+               out.print( "<td>"+form+"</td></tr>");
+	   
+   }
+%>
 
+
+```
+
+File Handler
+```java
+private void updateInformation(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int fileId = Integer.parseInt(request.getParameter("fileId"));
+		String label = request.getParameter("label");
+		String caption = request.getParameter("caption");
+		Files file = new Files(fileId, label, caption);
+		new FilesDAO().updateInformation(file);
+		listingImages(request, response);
+
+	}
+```
 ### 7. Update information logic revisited
+Khi update k update file name = null
+2 cach:
+- set lai file name
+- add another hidden field
 
+String fileName = request.getParameter("fileName");
+=
+> chi update column minh can
 ### 8. Update specific column data using Hibernate
 
 ### 9. Add view image action
