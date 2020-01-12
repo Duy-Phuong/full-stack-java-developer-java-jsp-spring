@@ -3834,7 +3834,9 @@ public class Files {
 ```
 
 ### 5. Hibernate in action
+
 DAO
+
 ```java
 package org.studyeasy.hibernate.DAO;
 
@@ -3850,7 +3852,7 @@ public class FilesDAO {
 			                 .configure("hibernate.cfg.xml")
 			                 .addAnnotatedClass(Files.class)
 			                 .buildSessionFactory();
-	
+
 	public void addFileDetails(Files file) {
 		Session session = factory.getCurrentSession();
 		session.beginTransaction();
@@ -3863,12 +3865,13 @@ public class FilesDAO {
 ```
 
 ImageUpload
+
 ```java
  public String path = "c:/images/";
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
       ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
-      
+
       try {
 		List<FileItem> images = upload.parseRequest(request);
 		for(FileItem image: images) {
@@ -3878,19 +3881,22 @@ ImageUpload
 			new FilesDAO().addFileDetails(new Files(name));
 			image.write(new File(path+name));
 		}
-		
-		
+
+
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
 ```
+
 ### 6. Project files.html
 
 ## 45. JSP & Servlets Building the application
 
 ### 1. Setting things up
+
 ImageUpload
+
 ```java
  package org.studyeasy;
 
@@ -3969,19 +3975,23 @@ public class ImageUpload extends HttpServlet {
 }
 
 ```
+
 ### 2. List available files
+
 FileDao
+
 ```java
 public List<Files> listFiles(){
 		Session session = factory.getCurrentSession();
 		session.beginTransaction();
 		List<Files> files =  session.createQuery("from files").getResultList();
-		//session.getTransaction().commit();	
+		//session.getTransaction().commit();
 		return files;
 	}
 ```
 
 ImageFileUpload
+
 ```java
 private void listingImages(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -3992,12 +4002,15 @@ private void listingImages(HttpServletRequest request, HttpServletResponse respo
 
 	}
 ```
+
 ### 3. Display image files on JSP page
 
 ### 4. Improve view of the page
 
 ### 5. Adding update information form
+
 listFile
+
 ```ts
 <%
 
@@ -4028,14 +4041,17 @@ listFile
 			   "</ul></td>"+
 			   "<td>"+form+"</td></tr>"
 			   );
-	   
+
    }
 %>
 
 </table>
 ```
+
 ### 6. Implement update information functionality
+
 listFile
+
 ```ts
 <%
    String path = (String) request.getAttribute("path");
@@ -4057,7 +4073,7 @@ listFile
                "<input type='submit' value='Update'>"+
                "</form>";
                out.print( "<td>"+form+"</td></tr>");
-	   
+
    }
 %>
 
@@ -4065,6 +4081,7 @@ listFile
 ```
 
 File Handler
+
 ```java
 private void updateInformation(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -4077,22 +4094,117 @@ private void updateInformation(HttpServletRequest request, HttpServletResponse r
 
 	}
 ```
+
 ### 7. Update information logic revisited
+
 Khi update k update file name = null
 2 cach:
+
 - set lai file name
 - add another hidden field
 
-String fileName = request.getParameter("fileName");
-=
+# String fileName = request.getParameter("fileName");
+
 > chi update column minh can
+
 ### 8. Update specific column data using Hibernate
+
+Xem lai
+get ra roi set name
+DAO
+
+```java
+public void updateInformation(int id, String label, String caption) {
+		Session session = factory.getCurrentSession();
+		session.beginTransaction();
+		Files file = session.get(Files.class, id);
+		file.setLabel(label);
+		file.setCaption(caption);
+		session.getTransaction().commit();
+
+	}
+```
 
 ### 9. Add view image action
 
+listFile
+
+```java
+out.print("<td><ul><li><a href='"+request.getContextPath()+"/FilesHandler?action=viewImage&fileId="+
+            		  file.getId()+"'>View</a></li></ul></td></tr>");
+
+```
+
+FileHandler
+
+```java
+private void viewImage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int fileId = Integer.parseInt(request.getParameter("fileId"));
+		Files file = new FilesDAO().getFile(fileId);
+		System.out.println(file);
+
+	}
+```
+
+DAO
+
+```java
+
+	public Files getFile(int fileId) {
+		Session session = factory.getCurrentSession();
+		session.beginTransaction();
+		Files file = session.get(Files.class, fileId);
+		session.getTransaction().commit();
+		return file;
+	}
+```
+
 ### 10. Implement view image page
 
+viewImages
+
+```ts
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%@ page import="org.studyeasy.hibernate.entity.*" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>View Image</title>
+</head>
+<body>
+<%! Files file; String path; %>
+<% file = (Files)request.getAttribute("file");
+   path = (String)request.getAttribute("path");
+%>
+File ID: <%= file.getId() %> | File name: <%= file.getFileName() %>
+<%
+if(file.getLabel() != null)
+  out.print("| Label : "+file.getLabel());
+%>
+<%
+if(file.getLabel() != null)
+  out.print("| Caption : "+file.getCaption());
+%>
+| <a href="${pageContext.request.contextPath}">Home</a>
+| <a href="${pageContext.request.contextPath}/FilesHandler?action=listingImages">List available images</a>
+<hr/>
+<img src="<%=path+file.getFileName()%>">
+</body>
+</html>
+```
+
 ### 11. Add delete image action
+
+listFile
+
+```java
+out.print("<li><a href='" + request.getContextPath() + "/FilesHandler?action=deleteImage&fileId="
+							+ file.getId()
+							+ "' onclick=\"if(!confirm('Are you sure to delete the user?')) return false\">Delete</a></li></ul></td></tr>");
+
+```
 
 ### 12. Recheck the application working
 
