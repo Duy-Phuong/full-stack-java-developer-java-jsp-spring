@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="constructor" default-autowire-candidates="offers1">
+
+
+	<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance">
+	</bean>
+	<bean id="offers1" class="org.studyeasy.spring.Offers"></bean>
+	<bean id="offers2" class="org.studyeasy.spring.Offers"></bean>
+
+</beans>
+
+

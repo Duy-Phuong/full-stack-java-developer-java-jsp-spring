@@ -4523,14 +4523,60 @@ public class bikeInsurance implements Insurance {
 	</bean>
 ```
 ### 4. Setting Property as Property
+Nhu tren
+```xml
+<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance">
 
+	<property name="members">
+
+	<props>
+		<prop key="Father">John</prop>
+		<prop key="Brother">Mike</prop>
+		<prop key="Holder">Ron</prop>
+	</props>
+	</property>
+	</bean>
+```
 ### 5. Project files.html
 
 ## 54. Spring framework (Legacy) Autowiring (XML Configuration)
+```xml
+<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance"
+		autowire="constructor">
+	</bean>
 
+	<bean id="offers" class="org.studyeasy.spring.Offers"></bean>
+	
+```
 ### 1. Getting Started with Constructor
+```java
+package org.studyeasy.spring;
 
+public class bikeInsurance implements Insurance {
+   
+    
+	public bikeInsurance(Offers offer) {
+		
+		System.out.println(offer.getOffer());
+	}
+	
+	@Override
+	public String showStatus() {
+		
+		return "Your Bike is Insured";
+	}
+
+}
+```
 ### 2. Constructor Autowiring (Removing Ambiguities)
+khi co nhieu bean
+```xml
+<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance">
+	</bean>
+	<bean id="offers1" class="org.studyeasy.spring.Offers"></bean>
+	<bean id="offers2" class="org.studyeasy.spring.Offers"></bean>
+```
+SD primary = "true" hay autowire-candidate = "false"
 
 ### 3. Autowiring Default Setting - Basics
 

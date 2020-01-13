@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance">
+
+	<property name="currentOffer"></property>
+
+	<property name="currentCondition" ></property>
+	</bean>
+
+	<bean id="offers" class="org.studyeasy.spring.Offers"></bean>
+	
+	<bean id="condition" class="org.studyeasy.spring.Conditions"></bean>
+</beans>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byType"
+	default-autowire-candidates="xyzOffer,xyzCondition">
+
+
+	<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance"
+		autowire="byName">
+
+	
+	</bean>
+
+	<bean id="currentOffer" class="org.studyeasy.spring.Offers">
+	 	<property name="offer" value="Happy Diwali, 20% OFF on all products"></property>
+	</bean>
+
+	<bean name="currentCondition" class="org.studyeasy.spring.Conditions">
+		<property name="condition" value="No Conditions, It's Diwali"></property>
+	</bean>
+	
+		
+	<bean name="abcCondition" class="org.studyeasy.spring.Conditions">
+		<property name="condition" value="No Conditions, It's Diwali"></property>
+	</bean>
+
+
+
+
+</beans>
