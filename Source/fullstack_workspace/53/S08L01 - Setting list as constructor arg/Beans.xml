@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance">
+	<constructor-arg>
+		<list>
+			<value>John</value>
+			<value>Ron</value>
+			<value>Mike</value>
+			<value>John</value>
+		</list>
+	</constructor-arg>
+	</bean>
+
+
+</beans>

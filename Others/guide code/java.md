@@ -4387,11 +4387,68 @@ Them ham set va the properties
 ## 52. Spring framework (Legacy) Understanding Spring bean (XML Configuration)
 
 ### 1. Bean overview
-
+pdf
+Spring beans are just object instances that are
+managed by the Spring IoC (Inversion of Control).  
+Beans are created and wired by the framework and
+put into a "bag of objects" (the container) from where
+you can get them later.
 ### 2. What is Bean(Document).html
 
 ### 3. What is Bean Scope
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+      
+      	<context:component-scan base-package="org.studyeasy.spring">
+      	</context:component-scan>
+</beans>
 
+```
+
+
+```java
+
+@Component("offers")
+@Scope("prototype")
+public class Offers {
+	private String offer = new String("No current offers");
+
+	public String getOffer() {
+		return offer;
+	}
+
+	public void setOffer(String offer) {
+		this.offer = offer;
+	}
+}
+
+```
+
+User
+```java
+	public static void main(String[] args) {		
+	
+		FileSystemXmlApplicationContext context = 
+				new FileSystemXmlApplicationContext("BeanScope.xml");
+		
+		Offers offer1 = context.getBean("offers",Offers.class);
+		Offers offer2 = context.getBean("offers",Offers.class);
+		
+		offer1.setOffer("Get 10% OFF this month");
+		System.out.println("Offer 1 : "+offer1.getOffer());
+		System.out.println("Offer 2 : "+offer2.getOffer());
+		System.out.println(offer1);
+		System.out.println(offer2);
+        context.close();
+	}
+```
 ### 4. What is Bean Scope(Document).html
 
 ### 5. Bean scopes - Setting up
@@ -4399,7 +4456,7 @@ Them ham set va the properties
 ### 6. Bean scopes - Singleton & Prototype Scope
 
 ### 7. Bean LifeCycle
-
+init and destroy method
 ### 8. Bean LifeCycle(Document).html
 
 ### 9. Beans init and destroy
@@ -4409,11 +4466,62 @@ Them ham set va the properties
 ## 53. Spring framework (Legacy) Spring Beans and collection
 
 ### 1. Setting list as Constructor arg
+```xml
+	<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance">
+	<constructor-arg>
+		<list>
+			<value>John</value>
+			<value>Ron</value>
+			<value>Mike</value>
+			<value>John</value>
+		</list>
+	</constructor-arg>
+	</bean>
+```
 
+```java
+public class bikeInsurance implements Insurance {
+
+	public bikeInsurance(List<String> members){
+		System.out.println("List of members under insurance");
+		for (String member : members) {
+			System.out.println(member);
+		}
+	}
+	@Override
+	public String showStatus() {
+		
+		return "Your Bike is Insured";
+	}
+	
+}
+```
 ### 2. Setting Set as Constructor arg
-
+```xml
+<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance">
+	<constructor-arg>
+		<set>
+			<value>John</value>
+			<value>Ron</value>
+			<value>Mike</value>
+			<value>John</value>
+		</set>
+	</constructor-arg>
+	</bean>
+```
 ### 3. Setting Map as Property
+```xml
+<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance">
 
+	<property name="members">
+		<map>
+			<entry key="Father" value="John"></entry>
+			<entry key="Brother" value="Mike"></entry>
+			<entry key="holder" value="Ron"></entry>
+		</map>
+	</property>
+	</bean>
+```
 ### 4. Setting Property as Property
 
 ### 5. Project files.html
