@@ -4237,13 +4237,57 @@ out.print("<li><a href='" + request.getContextPath() + "/FilesHandler?action=del
 ### 5. Understanding Inversion of control(Document).html
 
 ### 6. Implementing Inversion of Control
+File/ New spring bean configuration file(chi an nenexva khong chon gi het)
+vao tab Overview/ right click/ insert bean element
 
+Bean.xml
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance"></bean>
+</beans>
+
+```
+App
+```java
+package org.studyeasy.spring;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+
+public class User {
+
+	public static void main(String[] args) {
+		
+	
+		FileSystemXmlApplicationContext context = 
+				new FileSystemXmlApplicationContext("Beans.xml");
+         Insurance status = context.getBean("myInsurance", Insurance.class);
+         System.out.println(status.showStatus());
+         context.close();
+	}
+
+}
+
+```
 ### 7. Project files.html
 
 ## 49. Spring framework (Legacy) Good to Know Information (Part 1)
 
 ### 1. ClassPathXmlApplicationContext
-
+```java
+public static void main(String[] args) {
+		
+	
+		ClassPathXmlApplicationContext context = 
+				new ClassPathXmlApplicationContext("/org/studyeasy/spring/Beans.xml");
+         Insurance status = context.getBean("myInsurance", Insurance.class);
+         System.out.println(status.showStatus());
+         context.close();
+	}
+```
 ### 2. The Jars.html
 
 ### 3. Project files on Drive
