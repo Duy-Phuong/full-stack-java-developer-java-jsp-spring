@@ -4301,21 +4301,87 @@ public static void main(String[] args) {
 ## 50. Spring framework (Legacy) Inversion of control - Continues (XML Configuration)
 
 ### 1. Constructor Arguments
+Them file bean.xml
+```xml
+<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance" p:validity="2019">
+	<constructor-arg value="Chaand" type="java.lang.String"
+		name="name">
+	</constructor-arg>
+	<constructor-arg value="987654321" type="int" name="insuranceID"></constructor-arg>
+	</bean>
+```
 
+add construtor
+bikeInsurance
+```java
+public class bikeInsurance implements Insurance {
+
+	private String name;
+	private int insuranceID;
+    private int validity;
+	public bikeInsurance(String name, int insuranceID) {
+		this.name = name;
+		this.insuranceID = insuranceID;
+	}
+	public bikeInsurance(){
+		this.name = "User";
+		this.insuranceID = 000;
+	}
+	public void setValidity(int validity) {
+		this.validity = validity;
+	}
+
+	@Override
+	public String toString() {
+		return "bikeInsurance [name=" + name + ", insuranceID=" + insuranceID + ", validity=" + validity + "]";
+	}
+	@Override
+	public String showStatus() {
+		
+		return "Hi "+name+", Your Bike is Insured. Your Insurance ID is "+insuranceID;
+	}
+}
+```
 ### 2. Setting Bean Properties
 
 ### 3. Setting Bean Property using P Namespace
-
+Check vao  P Namespace
 ### 4. Project files.html
 
 ## 51. Spring framework (Legacy) IOC - Dependency injection (XML Configuration)
 
 ### 1. Dependency Injection (Constructor argument)
-
+```xml
+<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance">
+		<constructor-arg name="offer" ref="offers"></constructor-arg>
+	</bean>
+	
+	<bean id="offers" class="org.studyeasy.spring.Offers"></bean>
+```
+add
+```java
+private Offers offer;
+	public bikeInsurance(Offers offer) {
+		this.offer = offer;
+		System.out.println(offer.getOffer());
+	}
+	
+	public bikeInsurance(){
+		
+	}
+```
 ### 2. Dependency Injection (Property setter)
-
+Them ham set va the properties
 ### 3. Dependency Injection (Inner Bean)
-
+```xml
+<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance">
+		<property name="CurrentOffer">
+		  <bean id="offers" class="org.studyeasy.spring.Offers"></bean>
+		
+		</property>
+	</bean>
+	
+```
 ### 4. Project files.html
 
 ## 52. Spring framework (Legacy) Understanding Spring bean (XML Configuration)
