@@ -4431,11 +4431,54 @@ public static void main(String[] args) {
 ## 56. Spring framework (Legacy) IOC - Dependency injection (With Annotation)
 
 ### 1. Annotation-config vs Component-scan
+pdf
+<context:annotation-config> is used to activate annotations in the project for beans already registered in the application context (For any beans, Either registered with XML or by package scanning)
 
+By using <context:component-scan> and pointing the base
+package, Spring will auto-discover and registers the
+components(Beans) into Spring container. *By making use of <context:component-scan>, the annotations for the project get’s auto activated
 ### 2. Annotation-config vs Component-scan(Document).html
+```xml
+<bean id="myInsurance" class="org.studyeasy.spring.BikeInsurance">
+	</bean>
+	
+	<bean id="Offer" class="org.studyeasy.spring.Offers"></bean>
+	<!-- enable annotation -->
+	<context:annotation-config/>
+```
 
+```java
+// by type
+// Neu co nhieu bean cung type se crash
+@Autowired
+	 public BikeInsurance(Offers offer123) {
+			
+			System.out.println(offer123.getOffer());
+		}
+```
 ### 3. Autowire XML beans with annotation(Background)
+```xml
+<context:component-scan base-package="org.studyeasy.spring">
+	</context:component-scan>
+```
 
+```java
+// Them annotaion Component
+@Component("myInsurance")
+public class BikeInsurance implements Insurance {
+   
+	@Autowired
+	 public BikeInsurance(Offers offer) {
+			
+			System.out.println(offer.getOffer());
+		}	
+	@Override
+	public String showStatus() {
+		
+		return "Your Bike is Insured";
+	}
+}
+```
 ### 4. Autowire XML beans with annotation(Document).html
 
 ### 5. Autowire XML beans with annotation
@@ -4447,15 +4490,41 @@ public static void main(String[] args) {
 ### 8. Construction Injection only with Annotations
 
 ### 9. Autowired Required attribute
-
+```java
+@Component("myInsurance")
+public class BikeInsurance implements Insurance {
+   // add
+	public BikeInsurance(){
+		
+	}
+	@Autowired(required=false)
+	 public BikeInsurance(Offers offer) {
+			
+			System.out.println(offer.getOffer());
+		}	
+	@Override
+	public String showStatus() {
+		
+		return "Your Bike is Insured";
+	}
+}
+```
 ### 10. Setter Injection
 
 ### 11. Field Injection
 
 ### 12. Ambiguities and Autowiring
+@Autowired
+    Offers CurrentOffer;
 
+khi co 2 class implements Offers thi khong biet nen SD cai nao
 ### 13. Qualifier Annotation
-
+```java
+@Autowired
+	@Qualifier("offersUS")
+    Offers CurrentOffer;
+```
+Nho them @Component("offersUS")
 ### 14. Project files.html
 
 ## 57. Spring framework (Legacy) Understanding Spring bean (Annotations)
