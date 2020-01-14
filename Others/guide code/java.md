@@ -4536,15 +4536,49 @@ Nho them @Component("offersUS")
 ### 3. Bean Scope with Annotation
 
 ### 4. Init and Destroy Method of Bean
+```java
+@Component("offers")
+public class Offers {
+	private String offer = new String("No current offers");
 
+	public String getOffer() {
+		return offer;
+	}
+
+	public void setOffer(String offer) {
+		this.offer = offer;
+	}
+    @PostConstruct
+	public void initMe(){
+		System.out.println("Init Me Method Called");
+	}
+	@PreDestroy
+	public void doSomethingBeforeDestroy(){
+		System.out.println("Do Something Before Destroy");
+	}
+}
+```
+pdf
 ### 5. Project files.html
 
 ## 58. Spring framework (Legacy) Good to know information (Part 2)
 
 ### 1. SpEL Language
-
+```java
+<bean id="myInsurance" class="org.studyeasy.spring.BikeInsurance">
+		<property name="currentOffer" value="#{'Offers USA :'+offers.OfferUS}"></property>
+	</bean>
+	
+	<bean id="offers" class="org.studyeasy.spring.OffersGenerator"></bean>
+```
 ### 2. Reading from property file (XML Config)
-
+```xml
+<bean id="myInsurance" class="org.studyeasy.spring.BikeInsurance">
+		<property name="currentOffer" value="${offers.USA}"></property>
+	</bean>
+	
+	<context:property-placeholder location="classpath:org/studyeasy/resources/offersList.properties" />
+```
 ### 3. Project files.html
 
 ## 59. Spring framework (Legacy) Spring Configuration Annotation (No XML)
