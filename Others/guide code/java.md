@@ -4584,27 +4584,140 @@ pdf
 ## 59. Spring framework (Legacy) Spring Configuration Annotation (No XML)
 
 ### 1. Type of Configurations
+- xml
+- annotation
+- xml and annotation
 
+Xem lai..
 ### 2. Type of Configurations(Document).html
 
 ### 3. Spring Configurations Getting Started
+AppConfig
+```java
+package org.studyeasy.spring;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+// ComponentScan
+public class AppConfig {
+
+	// ten method la myInsurance thi k can chi ro id
+	@Bean("myInsurance")
+	public BikeInsurance insurance(){
+		return new BikeInsurance();
+	}
+	
+}
+
+```
+
+Main
+```java
+package org.studyeasy.spring;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class User {
+
+	public static void main(String[] args) {
+		 
+		AnnotationConfigApplicationContext context =
+				new AnnotationConfigApplicationContext(AppConfig.class);
+	
+         Insurance status = context.getBean("myInsurance", Insurance.class);
+         System.out.println(status.showStatus());
+         context.close();
+	}
+
+}
+
+```
 ### 4. Defining Beans
+AppConfig
+```java
+package org.studyeasy.spring;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+
+public class AppConfig {
+    @Bean
+    public Offer currentOffer(){
+    	return new Offer();
+    }
+	
+	@Bean("myInsurance")
+	public BikeInsurance insurance(){
+		
+		return new BikeInsurance(currentOffer());
+	}
+	
+}
+```
 ### 5. Constructor Injection
 
 ### 6. Reading from property file (Annotation)
+```java
+package org.studyeasy.spring;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+
+@Configuration
+@PropertySource("classpath:org/studyeasy/resourses/OffersList.properties")
+public class AppConfig {
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer  
+	PropertySourcesPlaceholderConfigurer(){
+		
+		return new PropertySourcesPlaceholderConfigurer();
+	}
+	
+    @Bean
+    public Offer currentOffer(){
+    	return new Offer();
+    }
+	
+	@Bean("myInsurance")
+	public BikeInsurance insurance(){
+		
+		return new BikeInsurance(currentOffer());
+	}
+	
+}
+```
+
+```java
+public class Offer {
+	// @Value("${offers.USA}"
+   public String currentOffer = "No Offers";
+
+	public String getCurrentOffer() {
+		return currentOffer;
+	}
+
+	@Autowired
+	public void setCurrentOffer(@Value("${offers.USA}") String currentOffer) {
+	this.currentOffer = currentOffer;
+	}
+}
+```
 ### 7. Project files.html
 
 ## 60. Spring framework (Legacy) Spring MVC - Getting Started
 
 ### 1. Spring MVC - Understanding the pattern
+pdf
 
 ### 2. Spring MVC - Understanding the pattern(Document).html
 
 ### 3. Steps Required for Creating Spring MVC Project
-
+4.1 S15L04-Steps.pdf
 ### 4. Steps Required (Document).html
 
 ### 5. Setting up Project
