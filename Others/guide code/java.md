@@ -799,7 +799,7 @@ https://www.javatpoint.com/life-cycle-of-a-servlet
 
 ### 7. JSP expressions element
 
-```jsp
+```ts
 <body>
 <h1>HELLO JSP</h1>
 
@@ -813,7 +813,7 @@ https://www.javatpoint.com/life-cycle-of-a-servlet
 
 ### 8. JSP scriptlets element
 
-```jsp
+```ts
 <%
 for(int i=0;i<10;i++){
 	out.print("<br/>");
@@ -824,7 +824,7 @@ for(int i=0;i<10;i++){
 
 ### 9. JSP declarations element
 
-```jsp
+```ts
 <%!
     String message(){
 	return "I love JSP";
@@ -837,7 +837,7 @@ for(int i=0;i<10;i++){
 
 ### 10. JSP comment element
 
-```jsp
+```ts
  	<%-- 	response.sendRedirect("http://studyeasy.org");	--%>
 
 ```
@@ -943,7 +943,7 @@ http://localhost:8080/S01L14/parameter.jsp?getValue1=1&getValue2=5
 
 file parameter.jsp
 
-```jsp
+```ts
 <%
 
 out.println("Value 1: "+request.getParameter("getValue1"));
@@ -971,7 +971,7 @@ http://localhost:8080/S01L15/JSPFile.jsp
 
 ### 16. Import class into Jsp page
 
-```jsp
+```ts
 <%@ page import="java.util.Date,org.studyeasy.UserDefined"%> <%@ page
 language="java" contentType="text/html; charset=ISO-8859-1"
 pageEncoding="ISO-8859-1"%>
@@ -992,7 +992,7 @@ pageEncoding="ISO-8859-1"%>
 
 ### 17. Forward and redirect under JSP
 
-```jsp
+```ts
 It's from the original page <%
 //request.getRequestDispatcher("forward.jsp").forward(request, response);
 response.sendRedirect("redirect.jsp"); %>
@@ -1036,7 +1036,7 @@ Config web.xml file
 
 index.jsp
 
-```jsp
+```ts
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -1163,7 +1163,7 @@ Defines a clickable button
 6.1 Section2.zip.zip
 Create file form.jsp
 
-```jsp
+```ts
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -1197,7 +1197,7 @@ Create file form.jsp
 
 submit.jsp
 
-```jsp
+```ts
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -1235,7 +1235,7 @@ Neu sua post thanh get thi value se hien thi tren url
 
 File jsp
 
-```jsp
+```ts
 
 <form action="<%=request.getContextPath()%>/Controller" method="get">
    Full name: <input type="text" name="name"/><br/>
@@ -1333,7 +1333,7 @@ public class Controller extends HttpServlet {
 
 run file getProperties.jsp
 
-```jsp
+```ts
 <jsp:useBean id="user" class="org.studyeasy.beans.User" scope="session"></jsp:useBean>
 
 First Name: <jsp:getProperty property="firstName" name="user"/><br/>
@@ -1342,7 +1342,7 @@ Last Name: <jsp:getProperty property="lastName" name="user"/>
 
 run file setProperties.jsp
 
-```jsp
+```ts
 <body>
 <jsp:useBean id="user" class="org.studyeasy.beans.User" scope="session"></jsp:useBean>
 <jsp:setProperty property="firstName" name="user" value="Chaand"/>
@@ -1361,7 +1361,7 @@ page scope => 1 page => copy get sang page set
 
 page scope => each request => copy get sang page set
 
-```jsp
+```ts
 <jsp:useBean id="user" class="org.studyeasy.beans.User" scope="request"></jsp:useBean>
 
 <jsp:setProperty property="firstName" name="user" value="Chaand"/>
@@ -1378,7 +1378,7 @@ request.getRequestDispatcher("getRequestProperty.jsp").forward(request, response
 
 set
 
-```jsp
+```ts
 <jsp:useBean id="user" class="org.studyeasy.beans.User" scope="session"></jsp:useBean>
 <form action="getSessionProperty.jsp" method="post">
 First name: <input type="text" name="firstName" value='<jsp:getProperty property="firstName" name="user"/>'><br/>
@@ -1389,7 +1389,7 @@ Last name: <input type="text" name="lastName" value='<jsp:getProperty property="
 
 get
 
-```jsp
+```ts
 <jsp:useBean id="user" class="org.studyeasy.beans.User" scope="session"></jsp:useBean>
 <jsp:setProperty property="*" name="user"/>
 First Name: <jsp:getProperty property="firstName" name="user"/><br/>
@@ -1511,7 +1511,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 
 file jsp
 
-```jsp
+```ts
 
 <body>
 	<%
@@ -1545,7 +1545,7 @@ chrome://settings/cookies/detail?site=localhost
 
 File memberArea.jsp
 
-```jsp
+```ts
 Username:
 	<%=username%><br /> Current session:
 	<%=sessionID%><br /> memberArea!!
@@ -2357,275 +2357,7 @@ Tag Information
 
 Tag Class
 
-org.apache.taglibs.standard.tag.rt.fmt.FormatDateTag
 
-TagExtraInfo Class
-
-None
-
-Body Content
-
-empty
-
-Display Name
-
-None
-
-Attributes
-
-Name
-
-Required
-
-Request-time
-
-Type
-
-Description
-
-value
-
-true
-
-true
-
-java.lang.String
-
-Date and/or time to be formatted.
-
-type
-
-false
-
-true
-
-java.lang.String
-
-Specifies whether the time, the date, or both the time and date components of the given date are to be formatted.
-
-dateStyle
-
-false
-
-true
-
-java.lang.String
-
-Predefined formatting style for dates. Follows the semantics defined in class java.text.DateFormat. Applied only when formatting a date or both a date and time (i.e. if type is missing or is equal to "date" or "both"); ignored otherwise.
-
-timeStyle
-
-false
-
-true
-
-java.lang.String
-
-Predefined formatting style for times. Follows the semantics defined in class java.text.DateFormat. Applied only when formatting a time or both a date and time (i.e. if type is equal to "time" or "both"); ignored otherwise.
-
-pattern
-
-false
-
-true
-
-java.lang.String
-
-Custom formatting style for dates and times.
-
-timeZone
-
-false
-
-true
-
-java.lang.String
-
-Time zone in which to represent the formatted time.
-
-var
-
-false
-
-false
-
-java.lang.String
-
-Name of the exported scoped variable which stores the formatted result as a String.
-
-scope
-
-false
-
-false
-
-java.lang.String
-
-Scope of var.
-
-Variables
-
-No Variables Defined.
-
-Credit: http://docs.oracle.com/javaee/5/jstl/1.1/docs/tlddocs/fmt/formatDate.html
-
-JSTL fmt Tag formatNumber
-
-Formats a numeric value as a number, currency, or percentage
-
-Tag Information
-
-Tag Class
-
-org.apache.taglibs.standard.tag.rt.fmt.FormatNumberTag
-
-TagExtraInfo Class
-
-None
-
-Body Content
-
-JSP
-
-Display Name
-
-None
-
-Attributes
-
-Name
-
-Required
-
-Request-time
-
-Type
-
-Description
-
-value
-
-false
-
-true
-
-java.lang.String
-
-Numeric value to be formatted.
-
-type
-
-false
-
-true
-
-java.lang.String
-
-Specifies whether the value is to be formatted as number, currency, or percentage.
-
-pattern
-
-false
-
-true
-
-java.lang.String
-
-Custom formatting pattern.
-
-currencyCode
-
-false
-
-true
-
-java.lang.String
-
-ISO 4217 currency code. Applied only when formatting currencies (i.e. if type is equal to "currency"); ignored otherwise.
-
-currencySymbol
-
-false
-
-true
-
-java.lang.String
-
-Currency symbol. Applied only when formatting currencies (i.e. if type is equal to "currency"); ignored otherwise.
-
-groupingUsed
-
-false
-
-true
-
-java.lang.String
-
-Specifies whether the formatted output will contain any grouping separators.
-
-maxIntegerDigits
-
-false
-
-true
-
-java.lang.String
-
-Maximum number of digits in the integer portion of the formatted output.
-
-minIntegerDigits
-
-false
-
-true
-
-java.lang.String
-
-Minimum number of digits in the integer portion of the formatted output.
-
-maxFractionDigits
-
-false
-
-true
-
-java.lang.String
-
-Maximum number of digits in the fractional portion of the formatted output.
-
-minFractionDigits
-
-false
-
-true
-
-java.lang.String
-
-Minimum number of digits in the fractional portion of the formatted output.
-
-var
-
-false
-
-false
-
-java.lang.String
-
-Name of the exported scoped variable which stores the formatted result as a String.
-
-scope
-
-false
-
-false
-
-java.lang.String
-
-Scope of var.
-
-Variables
-
-No Variables Defined.
 
 Credit: http://docs.oracle.com/javaee/5/jstl/1.1/docs/tlddocs/fmt/formatNumber.html
 
@@ -4579,19 +4311,73 @@ khi co nhieu bean
 SD primary = "true" hay autowire-candidate = "false"
 
 ### 3. Autowiring Default Setting - Basics
-
+The beans them default-autowire="constructor" tren header hay default-autowire-candidate = "offer1"
 ### 4. Autowiring Properties - Setting up
-
+trong the property them ref toi bean ngoai
 ### 5. Autowire byName
+```xml
+	<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance" 
+	autowire="byName">
 
+	
+	</bean>
+
+	<bean id="currentOffer" class="org.studyeasy.spring.Offers">
+	 	<property name="offer" value="Happy Diwali, 20% OFF on all products"></property>
+	</bean>
+	
+	<bean name="currentCondition" class="org.studyeasy.spring.Conditions">
+		<property name="condition" value="No Conditions, It's Diwali"></property>
+	</bean>
+```
 ### 6. Autowire byType
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byType"
+	default-autowire-candidates="xyzOffer,xyzCondition">
 
+
+	<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance"
+		autowire="byName">
+
+	
+	</bean>
+
+	<bean id="currentOffer" class="org.studyeasy.spring.Offers">
+	 	<property name="offer" value="Happy Diwali, 20% OFF on all products"></property>
+	</bean>
+
+	<bean name="currentCondition" class="org.studyeasy.spring.Conditions">
+		<property name="condition" value="No Conditions, It's Diwali"></property>
+	</bean>
+	
+		
+	<bean name="abcCondition" class="org.studyeasy.spring.Conditions">
+		<property name="condition" value="No Conditions, It's Diwali"></property>
+	</bean>
+
+
+
+
+</beans>
+
+```
 ### 7. Project files.html
 
 ## 55. Spring framework (Legacy) Inversion of Control - Getting Started (Annotations)
 
 ### 1. Annotation Overview
+file pdf
+Annotations are like markers, which give some addition
+information of the element to the complier
 
+Why Annotation
+• XML can be confusing
+• Minimize usage of XML for configuration
+• Convenient to use
 ### 2. Annotation overview (Document).html
 
 ### 3. How Spring Annotation works
@@ -4599,9 +4385,47 @@ SD primary = "true" hay autowire-candidate = "false"
 ### 4. How Spring Annotation works(Document).html
 
 ### 5. Annotation Manual Wiring
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
+	<context:component-scan base-package="org.studyeasy.spring">
+	</context:component-scan>
+</beans>
+```
+
+```java
+
+@Component("myInsurance")
+public class BikeInsurance implements Insurance{
+    
+	@Override
+	public String showStatus() {
+		
+		return "Your Bike is Insured";
+	}
+
+}
+```
+User
+```java
+public static void main(String[] args) {
+	
+		FileSystemXmlApplicationContext context = 
+				new FileSystemXmlApplicationContext("Beans.xml");
+         Insurance status = context.getBean("myInsurance", Insurance.class);
+         System.out.println(status.showStatus());
+         context.close();
+	}
+```
 ### 6. Annotations Default Bean ID
-
+```java
+  Insurance status = context.getBean("bikeInsurance", Insurance.class);
+```
 ### 7. Project files.html
 
 ## 56. Spring framework (Legacy) IOC - Dependency injection (With Annotation)
