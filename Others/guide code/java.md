@@ -4963,21 +4963,203 @@ pdf
 https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/spring-form-tld.html
 https://www.javatpoint.com/spring-mvc-form-tag-library
 
+```java
+
+@Controller
+public class HelloController {
+
+	@RequestMapping("/hello")
+	public ModelAndView helloWorld(@RequestAttribute Information userInfo){
+
+		ModelAndView model = new ModelAndView("hello");
+		model.addObject("firstName",userInfo.getFirstName());
+		model.addObject("lastName",userInfo.getLastName());
+		return model;
+	}
+
+	@RequestMapping("/")
+	public ModelAndView homepage(){
+    ModelAndView model = new ModelAndView("index","info", new Information());
+	return model;
+	}
+}
+
+```
+
+index
+
+```ts
+
+<body>
+	<h4>Submit your information</h4>
+	<hr/>
+	<form:form action="hello" modelAttribute="info">
+
+	First Name : <form:input path="firstName"/>
+	<p/>
+	Last Name : <form:input path="lastName"/>
+	<p/>
+	<input type="submit" Value="Submit">
+	</form:form>
+</body>
+```
+
+hello.jsp
+
+```ts
+Hello ${firstName} ${lastName}
+
+```
+
 ### 5. Adding Radio buttons (Part 1)
+
+```java
+@RequestMapping("/hello")
+	public ModelAndView helloWorld(@RequestAttribute Information userInfo){
+
+		ModelAndView model = new ModelAndView("hello");
+		model.addObject("firstName",userInfo.getFirstName());
+		model.addObject("lastName",userInfo.getLastName());
+		model.addObject("gender",userInfo.getGender());
+		return model;
+	}
+
+	@RequestMapping("/")
+	public ModelAndView homepage(){
+    ModelAndView model = new ModelAndView("index","info", new Information());
+	return model;
+	}
+```
+
+index
+
+```ts
+	Gender : <form:radiobutton path="gender" value="Male"/>  Male
+	         <form:radiobutton path="gender" value="Female"/> Female
+```
 
 ### 6. Adding Radio buttons (Part 2)
 
+```java
+@RequestMapping("/")
+	public String homepage(Model model) {
+
+	    model.addAttribute("info", new Information());
+		Map<String, String> gender = new HashMap<String, String>();
+		gender.put("Male", "Male");
+		gender.put("Female", "Female");
+	    model.addAttribute("gender", gender);
+
+		return "index";
+	}
+```
+
+```ts
+Gender : <form:radiobuttons path="gender" items="${gender}"/>
+	<p/>
+	<input type="submit" Value="Submit">
+```
+
 ### 7. Adding Dropdown List (Part 1)
+
+```ts
+	Country : <form:select path="country">
+	          <form:option value="India"></form:option>
+	          <form:option value="USA"></form:option>
+	          <form:option value="Finland"></form:option>
+
+	         </form:select>
+```
 
 ### 8. Adding Dropdown List (Part 2)
 
+```java
+@RequestMapping("/")
+	public ModelAndView homepage() {
+		ModelAndView model = new ModelAndView("index", "info", new Information());
+		Map<String, String> gender = new HashMap<String, String>();
+		// add
+		Map<String,String> country = new HashMap<String,String>();
+		gender.put("Male", "Male");
+		gender.put("Female", "Female");
+		country.put("India", "India");
+		country.put("USA", "USA");
+		country.put("Finland", "Finland");
+		model.addObject("gender", gender);
+        model.addObject("countries",country);
+		return model;
+	}
+```
+
+index
+
+```ts
+Country : <form:select path="country" items="${countries}">
+		</form:select>
+```
+
 ### 9. Adding Textarea
+
+```ts
+    Message : <form:textarea path="message"/>
+
+```
 
 ### 10. Adding Checkboxes (Part 1)
 
+index.jsp
+
+```ts
+China <form:checkbox path="visitedCountry" value="China"/>
+	Thailand <form:checkbox path="visitedCountry" value="Thailand"/>
+	Sweden <form:checkbox path="visitedCountry" value="Sweden"/>
+	Japan <form:checkbox path="visitedCountry" value="Japan"/>
+```
+
+hello.jsp
+
+```ts
+<ul>
+    <c:forEach items="${visitedCountry}" var="temp">
+     <li> ${temp} </li>
+    </c:forEach>
+    </ul>
+```
+
 ### 11. Adding Checkboxes (Part 2)
 
+```java
+Map<String,String> visitedCountry = new LinkedHashMap<String,String>();
+		gender.put("Male", "Male");
+		gender.put("Female", "Female");
+
+
+		visitedCountry.put("China", "China");
+		visitedCountry.put("Thailand", "Thailand");
+		visitedCountry.put("Sweden", "Sweden");
+		visitedCountry.put("Japan", "Japan");
+```
+
+index.jsp
+
+```ts
+Visited Country:
+	<p />
+		<form:checkboxes items="${visitedCountry}" path="visitedCountry" />
+
+     <p>
+```
+
 ### 12. The 3 Approaches
+
+ModelAndView It allows a controller return both as a
+single value. It’s the legacy method.
+Model It is an interface which contains
+Methods like addAttribute, asMap etc.
+ModelMap It is an class which contains Methods
+like addAttribute, asMap etc
+
+pdf
 
 ### 13. The 3 Approaches(Document).html
 
@@ -4988,6 +5170,37 @@ https://www.javatpoint.com/spring-mvc-form-tag-library
 ## 63. Spring framework (Legacy) Styling and External Resources
 
 ### 1. Adding resources
+
+servlet
+
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+   <!-- Adding Support for Component Scan -->
+   <context:component-scan base-package="org.studyeasy.spring" />
+
+   <!-- Configure View Resolver -->
+   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+      <property name="prefix" value="/WEB-INF/jsp/" />
+      <property name="suffix" value=".jsp" />
+   </bean>
+
+
+   <mvc:annotation-driven></mvc:annotation-driven>
+   <mvc:resources location="/WEB-INF/template/" mapping="/files/**"></mvc:resources>
+
+</beans>
+
+```
+
+Nhap
+{base URL}/WEB-INF/template/test.txt
 
 ### 2. Styling the Form
 
