@@ -2357,8 +2357,6 @@ Tag Information
 
 Tag Class
 
-
-
 Credit: http://docs.oracle.com/javaee/5/jstl/1.1/docs/tlddocs/fmt/formatNumber.html
 
 ### 3. Project files.html
@@ -3969,10 +3967,12 @@ out.print("<li><a href='" + request.getContextPath() + "/FilesHandler?action=del
 ### 5. Understanding Inversion of control(Document).html
 
 ### 6. Implementing Inversion of Control
+
 File/ New spring bean configuration file(chi an nenexva khong chon gi het)
 vao tab Overview/ right click/ insert bean element
 
 Bean.xml
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -3984,7 +3984,9 @@ Bean.xml
 </beans>
 
 ```
+
 App
+
 ```java
 package org.studyeasy.spring;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -3992,9 +3994,9 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 public class User {
 
 	public static void main(String[] args) {
-		
-	
-		FileSystemXmlApplicationContext context = 
+
+
+		FileSystemXmlApplicationContext context =
 				new FileSystemXmlApplicationContext("Beans.xml");
          Insurance status = context.getBean("myInsurance", Insurance.class);
          System.out.println(status.showStatus());
@@ -4004,22 +4006,25 @@ public class User {
 }
 
 ```
+
 ### 7. Project files.html
 
 ## 49. Spring framework (Legacy) Good to Know Information (Part 1)
 
 ### 1. ClassPathXmlApplicationContext
+
 ```java
 public static void main(String[] args) {
-		
-	
-		ClassPathXmlApplicationContext context = 
+
+
+		ClassPathXmlApplicationContext context =
 				new ClassPathXmlApplicationContext("/org/studyeasy/spring/Beans.xml");
          Insurance status = context.getBean("myInsurance", Insurance.class);
          System.out.println(status.showStatus());
          context.close();
 	}
 ```
+
 ### 2. The Jars.html
 
 ### 3. Project files on Drive
@@ -4033,7 +4038,9 @@ public static void main(String[] args) {
 ## 50. Spring framework (Legacy) Inversion of control - Continues (XML Configuration)
 
 ### 1. Constructor Arguments
+
 Them file bean.xml
+
 ```xml
 <bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance" p:validity="2019">
 	<constructor-arg value="Chaand" type="java.lang.String"
@@ -4045,6 +4052,7 @@ Them file bean.xml
 
 add construtor
 bikeInsurance
+
 ```java
 public class bikeInsurance implements Insurance {
 
@@ -4069,81 +4077,94 @@ public class bikeInsurance implements Insurance {
 	}
 	@Override
 	public String showStatus() {
-		
+
 		return "Hi "+name+", Your Bike is Insured. Your Insurance ID is "+insuranceID;
 	}
 }
 ```
+
 ### 2. Setting Bean Properties
 
 ### 3. Setting Bean Property using P Namespace
-Check vao  P Namespace
+
+Check vao P Namespace
+
 ### 4. Project files.html
 
 ## 51. Spring framework (Legacy) IOC - Dependency injection (XML Configuration)
 
 ### 1. Dependency Injection (Constructor argument)
+
 ```xml
 <bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance">
 		<constructor-arg name="offer" ref="offers"></constructor-arg>
 	</bean>
-	
+
 	<bean id="offers" class="org.studyeasy.spring.Offers"></bean>
 ```
+
 add
+
 ```java
 private Offers offer;
 	public bikeInsurance(Offers offer) {
 		this.offer = offer;
 		System.out.println(offer.getOffer());
 	}
-	
+
 	public bikeInsurance(){
-		
+
 	}
 ```
+
 ### 2. Dependency Injection (Property setter)
+
 Them ham set va the properties
+
 ### 3. Dependency Injection (Inner Bean)
+
 ```xml
 <bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance">
 		<property name="CurrentOffer">
 		  <bean id="offers" class="org.studyeasy.spring.Offers"></bean>
-		
+
 		</property>
 	</bean>
-	
+
 ```
+
 ### 4. Project files.html
 
 ## 52. Spring framework (Legacy) Understanding Spring bean (XML Configuration)
 
 ### 1. Bean overview
+
 pdf
 Spring beans are just object instances that are
 managed by the Spring IoC (Inversion of Control).  
 Beans are created and wired by the framework and
 put into a "bag of objects" (the container) from where
 you can get them later.
+
 ### 2. What is Bean(Document).html
 
 ### 3. What is Bean Scope
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-4.3.xsd">
-      
+
       	<context:component-scan base-package="org.studyeasy.spring">
       	</context:component-scan>
 </beans>
 
 ```
-
 
 ```java
 
@@ -4164,15 +4185,16 @@ public class Offers {
 ```
 
 User
+
 ```java
-	public static void main(String[] args) {		
-	
-		FileSystemXmlApplicationContext context = 
+	public static void main(String[] args) {
+
+		FileSystemXmlApplicationContext context =
 				new FileSystemXmlApplicationContext("BeanScope.xml");
-		
+
 		Offers offer1 = context.getBean("offers",Offers.class);
 		Offers offer2 = context.getBean("offers",Offers.class);
-		
+
 		offer1.setOffer("Get 10% OFF this month");
 		System.out.println("Offer 1 : "+offer1.getOffer());
 		System.out.println("Offer 2 : "+offer2.getOffer());
@@ -4181,6 +4203,7 @@ User
         context.close();
 	}
 ```
+
 ### 4. What is Bean Scope(Document).html
 
 ### 5. Bean scopes - Setting up
@@ -4188,7 +4211,9 @@ User
 ### 6. Bean scopes - Singleton & Prototype Scope
 
 ### 7. Bean LifeCycle
+
 init and destroy method
+
 ### 8. Bean LifeCycle(Document).html
 
 ### 9. Beans init and destroy
@@ -4198,6 +4223,7 @@ init and destroy method
 ## 53. Spring framework (Legacy) Spring Beans and collection
 
 ### 1. Setting list as Constructor arg
+
 ```xml
 	<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance">
 	<constructor-arg>
@@ -4222,13 +4248,15 @@ public class bikeInsurance implements Insurance {
 	}
 	@Override
 	public String showStatus() {
-		
+
 		return "Your Bike is Insured";
 	}
-	
+
 }
 ```
+
 ### 2. Setting Set as Constructor arg
+
 ```xml
 <bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance">
 	<constructor-arg>
@@ -4241,7 +4269,9 @@ public class bikeInsurance implements Insurance {
 	</constructor-arg>
 	</bean>
 ```
+
 ### 3. Setting Map as Property
+
 ```xml
 <bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance">
 
@@ -4254,8 +4284,11 @@ public class bikeInsurance implements Insurance {
 	</property>
 	</bean>
 ```
+
 ### 4. Setting Property as Property
+
 Nhu tren
+
 ```xml
 <bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance">
 
@@ -4269,68 +4302,83 @@ Nhu tren
 	</property>
 	</bean>
 ```
+
 ### 5. Project files.html
 
 ## 54. Spring framework (Legacy) Autowiring (XML Configuration)
+
 ```xml
 <bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance"
 		autowire="constructor">
 	</bean>
 
 	<bean id="offers" class="org.studyeasy.spring.Offers"></bean>
-	
+
 ```
+
 ### 1. Getting Started with Constructor
+
 ```java
 package org.studyeasy.spring;
 
 public class bikeInsurance implements Insurance {
-   
-    
+
+
 	public bikeInsurance(Offers offer) {
-		
+
 		System.out.println(offer.getOffer());
 	}
-	
+
 	@Override
 	public String showStatus() {
-		
+
 		return "Your Bike is Insured";
 	}
 
 }
 ```
+
 ### 2. Constructor Autowiring (Removing Ambiguities)
+
 khi co nhieu bean
+
 ```xml
 <bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance">
 	</bean>
 	<bean id="offers1" class="org.studyeasy.spring.Offers"></bean>
 	<bean id="offers2" class="org.studyeasy.spring.Offers"></bean>
 ```
+
 SD primary = "true" hay autowire-candidate = "false"
 
 ### 3. Autowiring Default Setting - Basics
+
 The beans them default-autowire="constructor" tren header hay default-autowire-candidate = "offer1"
+
 ### 4. Autowiring Properties - Setting up
+
 trong the property them ref toi bean ngoai
+
 ### 5. Autowire byName
+
 ```xml
-	<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance" 
+	<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance"
 	autowire="byName">
 
-	
+
 	</bean>
 
 	<bean id="currentOffer" class="org.studyeasy.spring.Offers">
 	 	<property name="offer" value="Happy Diwali, 20% OFF on all products"></property>
 	</bean>
-	
+
 	<bean name="currentCondition" class="org.studyeasy.spring.Conditions">
 		<property name="condition" value="No Conditions, It's Diwali"></property>
 	</bean>
 ```
+
 ### 6. Autowire byType
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -4343,7 +4391,7 @@ trong the property them ref toi bean ngoai
 	<bean id="myInsurance" class="org.studyeasy.spring.bikeInsurance"
 		autowire="byName">
 
-	
+
 	</bean>
 
 	<bean id="currentOffer" class="org.studyeasy.spring.Offers">
@@ -4353,8 +4401,8 @@ trong the property them ref toi bean ngoai
 	<bean name="currentCondition" class="org.studyeasy.spring.Conditions">
 		<property name="condition" value="No Conditions, It's Diwali"></property>
 	</bean>
-	
-		
+
+
 	<bean name="abcCondition" class="org.studyeasy.spring.Conditions">
 		<property name="condition" value="No Conditions, It's Diwali"></property>
 	</bean>
@@ -4365,11 +4413,13 @@ trong the property them ref toi bean ngoai
 </beans>
 
 ```
+
 ### 7. Project files.html
 
 ## 55. Spring framework (Legacy) Inversion of Control - Getting Started (Annotations)
 
 ### 1. Annotation Overview
+
 file pdf
 Annotations are like markers, which give some addition
 information of the element to the complier
@@ -4378,6 +4428,7 @@ Why Annotation
 • XML can be confusing
 • Minimize usage of XML for configuration
 • Convenient to use
+
 ### 2. Annotation overview (Document).html
 
 ### 3. How Spring Annotation works
@@ -4385,6 +4436,7 @@ Why Annotation
 ### 4. How Spring Annotation works(Document).html
 
 ### 5. Annotation Manual Wiring
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -4402,46 +4454,54 @@ Why Annotation
 
 @Component("myInsurance")
 public class BikeInsurance implements Insurance{
-    
+
 	@Override
 	public String showStatus() {
-		
+
 		return "Your Bike is Insured";
 	}
 
 }
 ```
+
 User
+
 ```java
 public static void main(String[] args) {
-	
-		FileSystemXmlApplicationContext context = 
+
+		FileSystemXmlApplicationContext context =
 				new FileSystemXmlApplicationContext("Beans.xml");
          Insurance status = context.getBean("myInsurance", Insurance.class);
          System.out.println(status.showStatus());
          context.close();
 	}
 ```
+
 ### 6. Annotations Default Bean ID
+
 ```java
   Insurance status = context.getBean("bikeInsurance", Insurance.class);
 ```
+
 ### 7. Project files.html
 
 ## 56. Spring framework (Legacy) IOC - Dependency injection (With Annotation)
 
 ### 1. Annotation-config vs Component-scan
+
 pdf
 <context:annotation-config> is used to activate annotations in the project for beans already registered in the application context (For any beans, Either registered with XML or by package scanning)
 
 By using <context:component-scan> and pointing the base
 package, Spring will auto-discover and registers the
-components(Beans) into Spring container. *By making use of <context:component-scan>, the annotations for the project get’s auto activated
+components(Beans) into Spring container. \*By making use of <context:component-scan>, the annotations for the project get’s auto activated
+
 ### 2. Annotation-config vs Component-scan(Document).html
+
 ```xml
 <bean id="myInsurance" class="org.studyeasy.spring.BikeInsurance">
 	</bean>
-	
+
 	<bean id="Offer" class="org.studyeasy.spring.Offers"></bean>
 	<!-- enable annotation -->
 	<context:annotation-config/>
@@ -4452,11 +4512,13 @@ components(Beans) into Spring container. *By making use of <context:component-sc
 // Neu co nhieu bean cung type se crash
 @Autowired
 	 public BikeInsurance(Offers offer123) {
-			
+
 			System.out.println(offer123.getOffer());
 		}
 ```
+
 ### 3. Autowire XML beans with annotation(Background)
+
 ```xml
 <context:component-scan base-package="org.studyeasy.spring">
 	</context:component-scan>
@@ -4466,19 +4528,20 @@ components(Beans) into Spring container. *By making use of <context:component-sc
 // Them annotaion Component
 @Component("myInsurance")
 public class BikeInsurance implements Insurance {
-   
+
 	@Autowired
 	 public BikeInsurance(Offers offer) {
-			
+
 			System.out.println(offer.getOffer());
-		}	
+		}
 	@Override
 	public String showStatus() {
-		
+
 		return "Your Bike is Insured";
 	}
 }
 ```
+
 ### 4. Autowire XML beans with annotation(Document).html
 
 ### 5. Autowire XML beans with annotation
@@ -4490,41 +4553,48 @@ public class BikeInsurance implements Insurance {
 ### 8. Construction Injection only with Annotations
 
 ### 9. Autowired Required attribute
+
 ```java
 @Component("myInsurance")
 public class BikeInsurance implements Insurance {
    // add
 	public BikeInsurance(){
-		
+
 	}
 	@Autowired(required=false)
 	 public BikeInsurance(Offers offer) {
-			
+
 			System.out.println(offer.getOffer());
-		}	
+		}
 	@Override
 	public String showStatus() {
-		
+
 		return "Your Bike is Insured";
 	}
 }
 ```
+
 ### 10. Setter Injection
 
 ### 11. Field Injection
 
 ### 12. Ambiguities and Autowiring
+
 @Autowired
-    Offers CurrentOffer;
+Offers CurrentOffer;
 
 khi co 2 class implements Offers thi khong biet nen SD cai nao
+
 ### 13. Qualifier Annotation
+
 ```java
 @Autowired
 	@Qualifier("offersUS")
     Offers CurrentOffer;
 ```
+
 Nho them @Component("offersUS")
+
 ### 14. Project files.html
 
 ## 57. Spring framework (Legacy) Understanding Spring bean (Annotations)
@@ -4536,6 +4606,7 @@ Nho them @Component("offersUS")
 ### 3. Bean Scope with Annotation
 
 ### 4. Init and Destroy Method of Bean
+
 ```java
 @Component("offers")
 public class Offers {
@@ -4558,41 +4629,51 @@ public class Offers {
 	}
 }
 ```
+
 pdf
+
 ### 5. Project files.html
 
 ## 58. Spring framework (Legacy) Good to know information (Part 2)
 
 ### 1. SpEL Language
+
 ```java
 <bean id="myInsurance" class="org.studyeasy.spring.BikeInsurance">
 		<property name="currentOffer" value="#{'Offers USA :'+offers.OfferUS}"></property>
 	</bean>
-	
+
 	<bean id="offers" class="org.studyeasy.spring.OffersGenerator"></bean>
 ```
+
 ### 2. Reading from property file (XML Config)
+
 ```xml
 <bean id="myInsurance" class="org.studyeasy.spring.BikeInsurance">
 		<property name="currentOffer" value="${offers.USA}"></property>
 	</bean>
-	
+
 	<context:property-placeholder location="classpath:org/studyeasy/resources/offersList.properties" />
 ```
+
 ### 3. Project files.html
 
 ## 59. Spring framework (Legacy) Spring Configuration Annotation (No XML)
 
 ### 1. Type of Configurations
+
 - xml
 - annotation
 - xml and annotation
 
 Xem lai..
+
 ### 2. Type of Configurations(Document).html
 
 ### 3. Spring Configurations Getting Started
+
 AppConfig
+
 ```java
 package org.studyeasy.spring;
 
@@ -4608,12 +4689,13 @@ public class AppConfig {
 	public BikeInsurance insurance(){
 		return new BikeInsurance();
 	}
-	
+
 }
 
 ```
 
 Main
+
 ```java
 package org.studyeasy.spring;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -4621,10 +4703,10 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class User {
 
 	public static void main(String[] args) {
-		 
+
 		AnnotationConfigApplicationContext context =
 				new AnnotationConfigApplicationContext(AppConfig.class);
-	
+
          Insurance status = context.getBean("myInsurance", Insurance.class);
          System.out.println(status.showStatus());
          context.close();
@@ -4633,8 +4715,11 @@ public class User {
 }
 
 ```
+
 ### 4. Defining Beans
+
 AppConfig
+
 ```java
 package org.studyeasy.spring;
 
@@ -4648,18 +4733,20 @@ public class AppConfig {
     public Offer currentOffer(){
     	return new Offer();
     }
-	
+
 	@Bean("myInsurance")
 	public BikeInsurance insurance(){
-		
+
 		return new BikeInsurance(currentOffer());
 	}
-	
+
 }
 ```
+
 ### 5. Constructor Injection
 
 ### 6. Reading from property file (Annotation)
+
 ```java
 package org.studyeasy.spring;
 
@@ -4672,23 +4759,23 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @PropertySource("classpath:org/studyeasy/resourses/OffersList.properties")
 public class AppConfig {
 	@Bean
-	public static PropertySourcesPlaceholderConfigurer  
+	public static PropertySourcesPlaceholderConfigurer
 	PropertySourcesPlaceholderConfigurer(){
-		
+
 		return new PropertySourcesPlaceholderConfigurer();
 	}
-	
+
     @Bean
     public Offer currentOffer(){
     	return new Offer();
     }
-	
+
 	@Bean("myInsurance")
 	public BikeInsurance insurance(){
-		
+
 		return new BikeInsurance(currentOffer());
 	}
-	
+
 }
 ```
 
@@ -4707,17 +4794,21 @@ public class Offer {
 	}
 }
 ```
+
 ### 7. Project files.html
 
 ## 60. Spring framework (Legacy) Spring MVC - Getting Started
 
 ### 1. Spring MVC - Understanding the pattern
+
 pdf
 
 ### 2. Spring MVC - Understanding the pattern(Document).html
 
 ### 3. Steps Required for Creating Spring MVC Project
+
 4.1 S15L04-Steps.pdf
+
 ### 4. Steps Required (Document).html
 
 ### 5. Setting up Project
@@ -4736,6 +4827,8 @@ pdf
 
 ### 12. Init Param Revisited
 
+xem lai
+
 ### 13. A Quick Walkthrough
 
 ### 14. Project files.html
@@ -4744,17 +4837,114 @@ pdf
 
 ### 1. Adding form
 
+index.jsp
+
+```ts
+Hey User, May I know your Name?
+	<form action="hello" method="POST">
+
+		<input type="text" name="name"
+		placeholder="Enter your name">
+		<input type="submit" value="Submit">
+
+	</form>
+```
+
+home
+
+```ts
+<h2> Hello ${param.name}</h2>
+```
+
 ### 2. Reading from form
 
 ### 3. Introducing Model
 
+```java
+// public String helloWorld(HttpServletRequest request, Model m){
+// 		String name = request.getParameter("name");
+// 		m.addAttribute("formName", name);
+// 		return "hello";
+// 	}
+
+
+```
+
 ### 4. Adding JSTL Support
+
+Xem lai videos cai dat
 
 ### 5. Adding Complex Data to Model
 
+```java
+@RequestMapping("/hello")
+	public ModelAndView helloWorld(HttpServletRequest request){
+		String name = request.getParameter("name");
+		List<String> courses = getList();
+		Date date = new Date();
+
+		ModelAndView model = new ModelAndView("hello");
+		model.addObject(name);
+		model.addObject(courses);
+		model.addObject(date);
+		return model;
+	}
+
+	private List<String> getList() {
+
+		List<String> list = new ArrayList<String>();
+		list.add("Course on Spring Framework");
+		list.add("JSP, Servlets and JSTL");
+		list.add("JAVA for Beginners");
+		list.add("Test and Improve your JAVA Skills");
+		list.add("JSF 2.2");
+		list.add("Multithreading,Java Generics,Collections and Lamda Exp");
+		list.add("Course On CodeIgniter");
+
+		return list;
+
+	}
+```
+
 ### 6. Reading Complex data using JSTL
 
+```ts
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Hello</title>
+</head>
+<body>
+<h4>Hello ${name}, As per date : ${date}</h4>
+<p/>
+List of available courses
+<hr/>
+<ul>
+	<c:forEach var="temp" items="${courses}">
+	<li>	${temp} </li>
+	</c:forEach>
+</ul>
+
+</body>
+</html>
+
+```
+
 ### 7. Reading Form Data using Request Param Annotation
+
+```java
+@RequestMapping("/hello")
+	public ModelAndView helloWorld(@RequestParam("name") String name){
+
+		ModelAndView model = new ModelAndView("hello");
+        model.addObject("name",name);
+		return model;
+	}
+```
 
 ### 8. Project files.html
 
