@@ -5206,26 +5206,186 @@ Nhap
 
 xem lai
 
+```ts
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="${pageContext.request.contextPath}/files/css/style.css"
+/>
+```
+
 ### 3. Project files.html
 
 ## 64. Spring framework (Legacy) Form Validations
 
 ### 1. Basic Form Validation using HTML
 
+```ts
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>HomePage</title>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/files/css/style.css"/>
+</head>
+<body>
+	<h4>Submit your information</h4>
+	<hr />
+
+	<form:form action="hello" modelAttribute="info">
+
+	First Name : <form:input path="firstName" required="true" placeholder="Enter First Name" />
+		<p />
+	Last Name : <form:input path="lastName" />
+		<p />
+	Gender : <form:radiobuttons path="gender" items="${gender}" />
+		<p />
+	Country : <form:select path="country" items="${countries}" >
+		</form:select>
+		<p />
+	Visited Country:
+	<p />
+		<form:checkboxes items="${visitedCountry}" path="visitedCountry" />
+
+     <p>
+	Message :
+	     <form:textarea path="message" required="true" />
+	<p />
+	<input type="submit" Value="Submit">
+
+	</form:form>
+</body>
+</html>
+
+
+
+
+
+```
+
 ### 2. An Update
+
+fix loi
+
+```java
+// Sua thanh
+@RequestMapping("/hello")
+public ModelAndView helloWorld( Information userInfo)
+```
+
+Khi include css file co EL thi loi
+https://mvnrepository.com/artifact/javax.servlet/jsp-api/2.0
 
 ### 3. Form Validation - Hibernate Validator (JSR 303)
 
+```java
+@RequestMapping("/hello")
+	public ModelAndView helloWorld(@Valid Information userInfo,
+			BindingResult result) {
+
+		ModelAndView model = new ModelAndView("hello");
+		model.addObject("firstName", userInfo.getFirstName());
+		model.addObject("lastName", userInfo.getLastName());
+		model.addObject("gender", userInfo.getGender());
+		model.addObject("country", userInfo.getCountry());
+		model.addObject("message", userInfo.getMessage());
+		if(result.hasErrors()){
+			System.out.println("Has Errors :(");
+		}else{
+			System.out.println("Good to Go!");
+		}
+		return model;
+	}
+```
+
+Download: https://mvnrepository.com/artifact/javax.validation/validation-api
+
+hibernate 4 jar: https://mvnrepository.com/artifact/org.hibernate/hibernate-core/4.1.4.Final
+
+hibernate validator 4.1
+log4j jar
+slf4j-simple-1.7.5
+slf4j-api-1.7.5
+
+Information
+
+```java
+public class Information {
+    @Size(min=5, max=6)
+	private String firstName;
+```
+
 ### 4. Update.html
+
+Hello,
+
+If you encounter with run-time error, try to add jars listed below to the project.
+
+1. jboss-logging-3.1.0.ga.jar
+
+link: https://mvnrepository.com/artifact/org.jboss.logging/jboss-logging/3.1.0.GA
+
+2. classmate-0.8.0.jar
+
+link: https://mvnrepository.com/artifact/com.fasterxml/classmate/0.8.0
+
+Solution suggested by: https://www.udemy.com/user/sai-wai-li/
 
 ### 5. Repopulating form Data
 
+```java
+// them
+if(result.hasErrors()){
+			System.out.println("Has Errors :(");
+			Map<String, String> gender = new HashMap<String, String>();
+
+			gender.put("Male", "Male");
+			gender.put("Female", "Female");
+
+		    return new ModelAndView("index","info",userInfo)
+		    		.addObject("gender", gender);
+
+		}else{
+			System.out.println("Good to Go!");
+			return model;
+		}
+```
+
 ### 6. Displaying Validation message on View
+
+them @ModelAttribute("info")
+
+```java
+@RequestMapping("/hello")
+	public ModelAndView helloWorld(@ModelAttribute("info") @Valid Information userInfo,
+			BindingResult result) {
+```
+
+File jsp
+
+```ts
+<form:form action="hello" modelAttribute="info">
+
+	First Name : <form:input path="firstName" required="true" placeholder="Enter First Name" />
+	<br/><form:errors path="firstName" cssStyle="color:red"></form:errors>
+```
+
+Neu k co message thi se su dung default
+
+```java
+@Size(min=2, max=20, message="Please Enter your First Name (Min 2 chars, Max 5 chars)")
+	private String firstName;
+```
 
 ### 7. Form Validation Rules
 
 ### 8. Creating Custom Validation Annotation(Document).html
-
+pdf
 ### 9. Project files.html
 
 ## 65. Spring framework (Legacy) Database Connectivity using JDBC (XML Configuration)
