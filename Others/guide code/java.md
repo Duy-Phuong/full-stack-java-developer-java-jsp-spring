@@ -5395,7 +5395,11 @@ pdf
 ### 2. SQL workbench
 
 ### 3. Understanding the Architecture
-
+“Authentication” is the process of establishing a principal is who they claim to
+be (a “principal” generally means a user, device or some other system which can
+perform an action in your application).
+• “Authorization” refers to the process of deciding whether a principal is allowed
+to perform an action within your application
 ### 4. Understanding the Architecture(Document).html
 
 ### 5. Methods of Mapping
