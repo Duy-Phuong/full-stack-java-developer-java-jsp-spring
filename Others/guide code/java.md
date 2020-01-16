@@ -5385,7 +5385,9 @@ Neu k co message thi se su dung default
 ### 7. Form Validation Rules
 
 ### 8. Creating Custom Validation Annotation(Document).html
+
 pdf
+
 ### 9. Project files.html
 
 ## 65. Spring framework (Legacy) Database Connectivity using JDBC (XML Configuration)
@@ -5395,12 +5397,16 @@ pdf
 ### 2. SQL workbench
 
 ### 3. Understanding the Architecture
+
 “Authentication” is the process of establishing a principal is who they claim to
 be (a “principal” generally means a user, device or some other system which can
 perform an action in your application).
 • “Authorization” refers to the process of deciding whether a principal is allowed
 to perform an action within your application
+
 ### 4. Understanding the Architecture(Document).html
+
+pdf
 
 ### 5. Methods of Mapping
 
@@ -5408,13 +5414,161 @@ to perform an action within your application
 
 ### 7. Setting Up Project
 
+Create Model User
+
 ### 8. Adding Data Access Object (DAOs)
+
+```java
+package org.studyeasy.spring.DAO;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.studyeasy.spring.model.User;
+
+public class AppDOAImpl implements AppDOA {
+
+	private DataSource dataSource;
+
+	public AppDOAImpl(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+
+	@Override
+	public List<User> listUsers() {
+		String SQL = "Select * from users";
+		List<User> listUsers = new ArrayList<User>();
+		Connection conn = null;
+		try{
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(SQL);
+			ResultSet rs =  ps.executeQuery();
+	        while(rs.next()){
+				// Can access by number 0, 1, 2
+	        	User temp = new User(
+	        			rs.getInt("user_id"),
+	        			rs.getString("name"),
+	        			rs.getString("email")
+	        			);
+	        	listUsers.add(temp);
+	        }
+	     rs.close();
+	     ps.close();
+	     return listUsers;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}finally{
+			if (conn != null) {
+				try {
+				conn.close();
+				} catch (SQLException e) {e.printStackTrace();}
+			}
+
+		}
+
+
+	}
+
+}
+
+
+```
 
 ### 9. Defining Beans (XML Configuration)
 
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/project" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+
+
+	<bean id="DAOBean" class="org.studyeasy.spring.DAO.AppDAOImpl">
+		<constructor-arg ref="dataSource" name="dataSource"></constructor-arg>
+	</bean>
+</beans>
+```
+
+Download jdbc mysql connector j
+
 ### 10. Reading from Database
 
+```java
+@Controller
+public class AppController {
+
+
+	@RequestMapping("/")
+	public ModelAndView homepage() {
+		ModelAndView model = new ModelAndView("index");
+		List<User> users = new ArrayList<User>();
+		ClassPathXmlApplicationContext context
+		= new ClassPathXmlApplicationContext("/org/studyeasy/spring/DAO/Spring-AppDAOConfig.xml");
+
+		AppDAOImpl DAO = context.getBean("DAOBean", AppDAOImpl.class);
+
+		users = DAO.listUsers();
+		System.out.println(users);
+		return model;
+	}
+}
+
+```
+
 ### 11. Showing Information on webpage
+
+```java
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>HomePage</title>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/files/css/style.css" />
+</head>
+<body>
+	<h4>Home Page : List of users in the project</h4>
+	<hr />
+	<table border="1" align="left">
+		<tr>
+			<th>User ID</th>
+			<th>Name</th>
+			<th>Email</th>
+		</tr>
+		<c:forEach items="${users}" var="user">
+			<tr>
+				<td>${user.userID} </td>
+				<td>${user.name} </td>
+				<td>${user.email} </td>
+			</tr>
+		</c:forEach>
+	</table>
+</body>
+</html>
+
+```
 
 ### 12. Project files.html
 
@@ -5422,9 +5576,61 @@ to perform an action within your application
 
 ### 1. Defining Annotations
 
+```java
+package org.studyeasy.spring.config;
+
+import javax.sql.DataSource;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.studyeasy.spring.DAO.AppDAOImpl;
+
+@Configuration
+public class AppConfig {
+
+	@Bean
+	public DataSource getDataSource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/project");
+		dataSource.setUsername("root");
+		dataSource.setPassword("root");
+
+		return dataSource;
+	}
+	@Bean(name="DAOBean")
+	public AppDAOImpl AppDAO(){
+		return new AppDAOImpl(getDataSource());
+	}
+}
+
+```
+
 ### 2. Getting Things in Place
 
+```java
+@RequestMapping("/")
+	public ModelAndView homepage() {
+		ModelAndView model = new ModelAndView("index");
+		List<User> users = new ArrayList<User>();
+		AnnotationConfigApplicationContext context
+		= new AnnotationConfigApplicationContext(AppConfig.class);
+
+		AppDAOImpl DAO = context.getBean("DAOBean", AppDAOImpl.class);
+
+		users = DAO.listUsers();
+        model.addObject("users", users);
+		context.close();
+		return model;
+	}
+```
+
 ### 3. Adding Add User link
+index
+```ts
+<a href="${pageContext.request.contextPath}/addUser">Add User</a>
+```
 
 ### 4. A Walkthrough
 
