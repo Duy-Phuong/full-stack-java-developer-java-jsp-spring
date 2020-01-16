@@ -5627,18 +5627,93 @@ public class AppConfig {
 ```
 
 ### 3. Adding Add User link
+
 index
+
 ```ts
 <a href="${pageContext.request.contextPath}/addUser">Add User</a>
 ```
 
 ### 4. A Walkthrough
 
+addUser
+
+```ts
+<form:form modelAttribute="user" action="addUser">
+
+<tr><td>Name : <form:input path="name"/>
+<form:errors path="name" cssStyle="color:red"></form:errors></td></tr>
+<tr><td>Email : <form:input path="email"/>
+<form:errors path="email" cssStyle="color:red"></form:errors></td></tr>
+<tr><td><input type="submit" value="Sumit"></td></tr>
+</form:form>
+```
+
+controller
+
+```java
+@RequestMapping("/addUser")
+	public String addUser(Model model, User user){
+		model.addAttribute("user", user);
+		return "addUser";
+	}
+```
+
 ### 5. Updating the Controller
 
 ### 6. Adding the Validation
 
+```java
+@RequestMapping("/addUser")
+	public String addUser(Model model, @Valid User user, BindingResult result) {
+		if (result.hasErrors()) {
+			model.addAttribute("user", user);
+			return "addUser";
+		} else {
+			if (user.getName() != null && user.getEmail() != null) {
+
+				AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+
+				AppDAOImpl DAO = context.getBean("DAOBean", AppDAOImpl.class);
+				DAO.addUser(user);
+				context.close();
+				return "forward:/";
+			} else {
+				System.out.println("loading form");
+				return "addUser";
+			}
+		}
+	}
+```
+
 ### 7. Adding User
+
+```java
+@Override
+public void addUser(User user) {
+	String SQL =  "INSERT INTO users " +
+			"(name, email) VALUES (?, ?)";
+	Connection conn = null;
+	try{
+		conn = dataSource.getConnection();
+		PreparedStatement ps = conn.prepareStatement(SQL);
+		ps.setString(1, user.getName());
+		ps.setString(2, user.getEmail());
+		System.out.println(ps.execute());
+
+     ps.close();
+
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}finally{
+		if (conn != null) {
+			try {
+			conn.close();
+			} catch (SQLException e) {e.printStackTrace();}
+		}
+
+	}
+```
 
 ### 8. Project files.html
 
@@ -5646,11 +5721,31 @@ index
 
 ### 1. Exception Handling
 
+```java
+package org.studyeasy.spring;
+
+import org.springframework.web.bind.annotation.ControllerAdvice;
+
+@ControllerAdvice
+public class ExceptionHandler {
+
+	@org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
+		public String exceptionHandler(Exception ex){
+			return "error";
+		}
+}
+
+```
+
 ### 2. Project files.html
 
 ## 68. Restful Api (JAX-RS) Web Services - Restful API
 
+SOAP and REST
+
 ### 1. Introduction To Web Services
+
+Xem lai
 
 ### 2. REST webservices overview
 
