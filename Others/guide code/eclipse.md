@@ -4,27 +4,27 @@ https://www.youtube.com/watch?v=fiuSckgjdmY&feature=youtu.be
 
 #### Import
 
-![](../../root/img/2019-12-08-08-21-03.png)
+![](common.assets/2019-12-08-08-21-03.png)
 
-![](../../root/img/2019-12-08-08-21-54.png)
+![](common.assets/2019-12-08-08-21-54.png)
 
-![](....//root/img/2019-12-08-08-22-36.png)
+![](common.assets/2019-12-08-08-22-36.png)
 
 File/ Open project from file system../ Directory
 
 #### Export
 
-![](../../root/img/2019-12-08-08-24-39.png)
+![](common.assets/2019-12-08-08-24-39.png)
 
-![](../../root/img/2019-12-08-08-25-14.png)
+![](common.assets/2019-12-08-08-25-14.png)
 
 Browse
-![](../../root/img/2019-12-08-08-25-34.png)  
+![](common.assets/2019-12-08-08-25-34.png)  
 Finish
 
 ### Add new server
 
-![](../../root/img/2019-12-08-08-18-30.png)
+![](common.assets/2019-12-08-08-18-30.png)
 
 Click on tab server/ create new server
 
@@ -54,14 +54,14 @@ Link: https://www.youtube.com/watch?v=VBkjXV1aSRA
 
 ### Import eclipse project on IntelliJ
 
-![](../../root/img/2019-12-08-15-36-53.png)
+![](common.assets/2019-12-08-15-36-53.png)
 
 ### Intellij idea set tab key to 4 spaces
 
 http://www.programmersought.com/article/2072376281/
 From the diagram above, instead of "Tools", select "Editor" > "Code Style" > [Pick a file type] ...then you will see your settings.
 
-![](../../root/img/2019-12-08-15-44-49.png)
+![](common.assets/2019-12-08-15-44-49.png)
 
 ### Inteliji
 
@@ -72,7 +72,7 @@ If you want to apply the changes just to the current file
 - Option 1: You can choose in the navigation bar: Edit -> Convert Indent -> To Spaces. (see image below)
 
 To view the keymap configuration, open the Settings/Preferences dialog Ctrl+Alt+S and select Keymap.
-![](../../root/img/2019-12-08-22-06-35.png)
+![](common.assets/2019-12-08-22-06-35.png)
 
 https://www.jetbrains.com/help/idea/configuring-keyboard-and-mouse-shortcuts.html
 

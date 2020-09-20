@@ -18,7 +18,7 @@ File pdf
 GG: download jdk
 https://www.oracle.com/technetwork/java/javase/downloads/index.html
 Java SE Development Kit 8u231
-![img](../../root/img/2019-12-08-00-40-00.png)
+![img](common.assets/2019-12-08-00-40-00.png)
 
 ### 2. Download and installation process of Eclipse
 
@@ -127,7 +127,7 @@ Xem lai!!
 
 ### 7. Import eclipse project on IntelliJ
 
-![](../../root/img/2019-12-08-15-36-53.png)
+![](common.assets/2019-12-08-15-36-53.png)
 
 ## 5. Java Decision making under Java
 
@@ -3054,7 +3054,7 @@ list user
 
 ```ts
 <a
-  href="<%=deleteURL%>"
+  href='<%=deleteURL%>'
   onclick="if(!confirm('Are you sure to delete the user?')) return false"
 >
   Delete
@@ -3126,9 +3126,9 @@ Add jsp-api and servlet-api
 index.jsp
 
 ```ts
-<form action="ImageUpload" method="post" enctype="multipart/form-data">
-  Select images <input type="file" name="files" multiple />
-  <input type="submit" value="upload" />
+<form action='ImageUpload' method='post' enctype='multipart/form-data'>
+  Select images <input type='file' name='files' multiple />
+  <input type='submit' value='upload' />
 </form>
 ```
 
@@ -5208,9 +5208,9 @@ xem lai
 
 ```ts
 <link
-  rel="stylesheet"
-  type="text/css"
-  href="${pageContext.request.contextPath}/files/css/style.css"
+  rel='stylesheet'
+  type='text/css'
+  href='${pageContext.request.contextPath}/files/css/style.css'
 />
 ```
 
@@ -5631,7 +5631,7 @@ public class AppConfig {
 index
 
 ```ts
-<a href="${pageContext.request.contextPath}/addUser">Add User</a>
+<a href='${pageContext.request.contextPath}/addUser'>Add User</a>
 ```
 
 ### 4. A Walkthrough
