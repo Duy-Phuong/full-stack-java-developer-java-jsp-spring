@@ -18,7 +18,6 @@ File pdf
 GG: download jdk
 https://www.oracle.com/technetwork/java/javase/downloads/index.html
 Java SE Development Kit 8u231
-![img](common.assets/2019-12-08-00-40-00.png)
 
 ### 2. Download and installation process of Eclipse
 
@@ -127,7 +126,6 @@ Xem lai!!
 
 ### 7. Import eclipse project on IntelliJ
 
-![](common.assets/2019-12-08-15-36-53.png)
 
 ## 5. Java Decision making under Java
 
